@@ -1,18 +1,35 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    Name <input type="text" v-model="sinhvien.name" />
+    Age <input type="text" v-model="sinhvien.age" />
+    <p>{{sinhvien.name}}</p>
+    <p>{{sinhvien.age}}</p>
+    <button @click="submit">Submit</button>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
 export default {
   name: "HomeView",
-  components: {
-    HelloWorld,
+  data() {
+    return {
+      sinhvien: {
+        name: null,
+        age: null,
+      }
+    };
+  },
+  methods: {
+    submit() {
+      console.log(this.sinhvien);
+    }
   },
 };
 </script>
+
+<style scoped>
+.home {
+  text-align: center;
+  color: #2c3e50;
+}
+</style>
