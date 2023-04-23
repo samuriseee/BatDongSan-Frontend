@@ -1,18 +1,13 @@
 <template>
   <div class="wrapper">
-    <SearchBarOnEstateList :update-search-query="updateSearchQuery" />
+    <SearchBarOnEstateList
+      :update-search-query="updateSearchQuery"
+      @search="updateSearchQuery"
+    />
     <div class="main-content">
-      <div class="estate-list" v-if="searchValue !== ''">
+      <div class="estate-list">
         <EstateCardOnListPage
           v-for="estate in filteredRealEstate"
-          :key="estate.id"
-          :estate="estate"
-          @click="$router.go('/estate/' + estate.id)"
-        />
-      </div>
-      <div class="estate-list" v-else>
-        <EstateCardOnListPage
-          v-for="estate in EstateForSale"
           :key="estate.id"
           :estate="estate"
           @click="$router.go('/estate/' + estate.id)"
@@ -76,17 +71,19 @@ export default {
         "Trên 1000 m2",
       ],
       EstateForSale: [],
-      searchValue: "",
+      searchQuery: "",
     };
   },
   computed: {
     filteredRealEstate() {
-      return this.EstateForSale.filter((estate) => {
-        console.log(estate.tieu_de);
-        return estate.tieu_de
-          .toLowerCase()
-          .includes(this.searchValue.toLowerCase());
-      });
+      if (this.searchQuery === "") return this.EstateForSale;
+      else {
+        return this.EstateForSale.filter((estate) => {
+          return estate.tieu_de
+            .toLowerCase()
+            .includes(this.searchQuery.toLowerCase());
+        });
+      }
     },
   },
   watch: {},
@@ -110,16 +107,9 @@ export default {
     goToEstateDetails(id) {
       this.$router.push({ name: "estate", params: { id: id } });
     },
-    updateSearchQuery(value) {
-      this.searchQuery = value;
+    updateSearchQuery(searchQuery) {
+      this.searchQuery = searchQuery;
     },
-    // updateSearchQuery(newValue) {
-    //   setTimeout(() => {
-    //     this.searchValue = newValue;
-
-    //     console.log(this.searchValue);
-    //   }, 300);
-    // },
   },
 };
 </script>

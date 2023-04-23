@@ -8,11 +8,13 @@
     <div class="re_card-info">
       <h3>{{ estate.tieu_de }}</h3>
       <div class="re_card-physicalInfo">
-        <p style="color:red; font-weight: 500;">{{ estate.gia }}</p>
-        <p style="color:red; font-weight: 500;">{{ estate.dien_tich }}</p>
+        <p style="color: red; font-weight: 500" v-if="estate.gia > 0">
+          {{ estate.gia }}
+        </p>
+        <p style="color: red; font-weight: 500">{{ estate.dien_tich }} m²</p>
         <p>{{ estate.dia_chi_cu_the }}</p>
       </div>
-      <div class="re_card-descript">{{ estate.mo_ta }}</div>
+      <div class="re_card-descript">{{ spliceDescription }}</div>
       <div class="re_card-contact">
         <div class="re_card-author">
           {{ estate.nguoi_dang }}
@@ -39,6 +41,10 @@ export default {
     getFirst4Images() {
       return this.estate.anh.slice(0, 4);
     },
+    spliceDescription() {
+      if (!this.estate.mo_ta) return this.estate.mo_ta;
+      else return this.estate.mo_ta.slice(0, 300) + "...";
+    },
   },
   methods: {},
 };
@@ -56,7 +62,7 @@ export default {
   text-align: left;
   margin: 25px auto;
   width: 80%;
-  
+  cursor: pointer;
 }
 .re_card-info {
   line-height: 1.2;
