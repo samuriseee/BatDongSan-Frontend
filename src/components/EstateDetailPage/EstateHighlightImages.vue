@@ -1,20 +1,20 @@
 <template>
     <div class="highlight-images">
         <div class="image-large">
-            <img :src="images[count]" alt="" />
+            <img class="slide" :src="images[count]" alt="" />
             <div
                 class="button-action-left"
                 :class="{ hidden: this.count == 0 }"
                 @click="$emit('prev-image')"
             >
-                L
+                <img src="../../assets/Icon/arrowRight.svg" alt="">
             </div>
             <div
                 class="button-action-right"
                 :class="{ hidden: this.count == images.length - 1 }"
                 @click="$emit('next-image')"
             >
-                R
+                <img src="../../assets/Icon/arrowLeft.svg" alt="">
             </div>
             <div class="current-page">1/11</div>
         </div>
@@ -76,5 +76,8 @@ export default {
             right: 16px;
         }
     }
+}
+.slide {
+    transition: 0.25s ease-in-out;
 }
 </style>
