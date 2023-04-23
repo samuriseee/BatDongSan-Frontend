@@ -131,7 +131,7 @@ export default {
   methods: {
     async getEstateDetail(id) {
       const { data } = await axios.get(
-        `http://127.0.0.1:8000/bat_dong_san/${id}`
+        `http://127.0.0.1:8080/bat_dong_san/${id}`
       );
       data.anh = data.anh.replace(/[[\]""]/g, "");
       data.anh = data.anh.split(",");

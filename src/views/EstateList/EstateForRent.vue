@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import FilterByCondition from "@/components/ui/FilterByCondition.vue";
 import SearchBarOnEstateList from "@/components/ui/SearchBarOnEstateList.vue";
 import EstateCardOnListPage from "@/components/article/EstateCardOnListPage.vue";
@@ -38,46 +39,7 @@ export default {
   },
   data() {
     return {
-      EstateForRent: [
-        {
-          id: 1,
-          title: "Căn hộ chung cư",
-          address: "Đường 3/2, Phường 12, Quận 10, Tp. Hồ Chí Minh",
-          price: "5000",
-          area: "100",
-          image: [
-            "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg",
-            "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg",
-            "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg",
-            "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg",
-          ],
-          description:
-            "Căn hộ chung cư ở đây rất đẹp, có nhiều tiện ích, có thể nói là một trong những căn hộ chung cư đẹp nhất tại Tp. Hồ Chí Minh",
-          author: {
-            name: "Kiẹt",
-            phone: "0123456789",
-          },
-        },
-        {
-          id: 2,
-          title: "Căn hộ chung cư",
-          address: "Đường 3/2, Phường 12, Quận 10, Tp. Hồ Chí Minh",
-          price: "5000",
-          area: "100",
-          image: [
-            "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg",
-            "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg",
-            "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg",
-            "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg",
-          ],
-          description:
-            "Căn hộ chung cư ở đây rất đẹp, có nhiều tiện ích, có thể nói là một trong những căn hộ chung cư đẹp nhất tại Tp. Hồ Chí Minh",
-          author: {
-            name: "Kiẹt",
-            phone: "0123456789",
-          },
-        },
-      ],
+      EstateForRent: [],
       FilterByPrice: [
         "Thỏa thuận",
         "Dưới 500 triệu",
@@ -109,6 +71,21 @@ export default {
       ],
     };
   },
+  created() {
+    axios
+      .get("http://127.0.0.1:8080/bat_dong_san/loai_nha_dat_cho_thue")
+      .then((response) => {
+        response.data = response.data.map((res) => {
+          res.anh = res.anh.replace(/[[\]""]/g, "");
+          res.anh = res.anh.split(",");
+          return res;
+        });
+        this.EstateForRent = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
   methods: {
     goToEstateDetails(id) {
       this.$router.push(`/estate/${id}`);
@@ -125,7 +102,6 @@ export default {
 .main-content {
   display: flex;
   justify-content: center;
-
 }
 .estate-list {
   width: 65%;
