@@ -5,121 +5,205 @@
       <router-link to="/estate-for-sale"> Bán </router-link>
     </div>
     <div>
-      <input style="color: #ccc" type="text" class="search-box" v-model="searchQuery" @input="updateSearchValue"
-        placeholder="Nhập tên căn hộ hoặc địa điểm" />
+      <input
+        style="color: #ccc"
+        type="text"
+        class="search-box"
+        v-model="searchQuery"
+        @keyup.enter="search()"
+        placeholder="Nhập tên căn hộ hoặc địa điểm"
+      />
     </div>
     <div class="list__option relative text-left flex">
       <div>
-        <button type="button"
+        <button
+          type="button"
           class="item__option inline-flex justify-center w-full shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
-          id="options-menu" aria-haspopup="true" aria-expanded="true" @click="openFilter">
+          id="options-menu"
+          aria-haspopup="true"
+          aria-expanded="true"
+          @click="openFilter"
+        >
           <div class="option_input">
             <p>Loại nhà đất</p>
             <span>Tất cả</span>
           </div>
           <!-- Heroicon name: chevron-down -->
-          <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-            aria-hidden="true">
-            <path fill-rule="evenodd"
+          <svg
+            class="-mr-1 ml-2 h-5 w-5"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
               d="M6.293 7.707a1 1 0 011.414 0L10 9.586l2.293-2.293a1 1 0 011.414 0l.707.707a1 1 0 010 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414l.707-.707z"
-              clip-rule="evenodd" />
+              clip-rule="evenodd"
+            />
           </svg>
         </button>
       </div>
 
       <div>
-        <button type="button"
+        <button
+          type="button"
           class="item__option inline-flex justify-center w-full shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
-          id="options-menu" aria-haspopup="true" aria-expanded="true" @click="openFilter">
+          id="options-menu"
+          aria-haspopup="true"
+          aria-expanded="true"
+          @click="openFilter"
+        >
           <div class="option_input">
             <p>Khu vực & Dự án</p>
             <span>Toàn quốc</span>
           </div>
           <!-- Heroicon name: chevron-down -->
-          <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-            aria-hidden="true">
-            <path fill-rule="evenodd"
+          <svg
+            class="-mr-1 ml-2 h-5 w-5"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
               d="M6.293 7.707a1 1 0 011.414 0L10 9.586l2.293-2.293a1 1 0 011.414 0l.707.707a1 1 0 010 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414l.707-.707z"
-              clip-rule="evenodd" />
+              clip-rule="evenodd"
+            />
           </svg>
         </button>
       </div>
 
       <div>
-        <button type="button"
+        <button
+          type="button"
           class="item__option inline-flex justify-center w-full shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
-          id="options-menu" aria-haspopup="true" aria-expanded="true" @click="openFilter">
+          id="options-menu"
+          aria-haspopup="true"
+          aria-expanded="true"
+          @click="openFilter"
+        >
           <div class="option_input">
             <p>Mức giá</p>
             <span>Tất cả</span>
           </div>
           <!-- Heroicon name: chevron-down -->
-          <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-            aria-hidden="true">
-            <path fill-rule="evenodd"
+          <svg
+            class="-mr-1 ml-2 h-5 w-5"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
               d="M6.293 7.707a1 1 0 011.414 0L10 9.586l2.293-2.293a1 1 0 011.414 0l.707.707a1 1 0 010 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414l.707-.707z"
-              clip-rule="evenodd" />
+              clip-rule="evenodd"
+            />
           </svg>
         </button>
       </div>
 
       <div>
-        <button type="button"
+        <button
+          type="button"
           class="item__option inline-flex justify-center w-full shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
-          id="options-menu" aria-haspopup="true" aria-expanded="true" @click="openFilter">
+          id="options-menu"
+          aria-haspopup="true"
+          aria-expanded="true"
+          @click="openFilter"
+        >
           <div class="option_input">
             <p>Diện tích</p>
             <span>Tất cả</span>
           </div>
           <!-- Heroicon name: chevron-down -->
-          <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-            aria-hidden="true">
-            <path fill-rule="evenodd"
+          <svg
+            class="-mr-1 ml-2 h-5 w-5"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
               d="M6.293 7.707a1 1 0 011.414 0L10 9.586l2.293-2.293a1 1 0 011.414 0l.707.707a1 1 0 010 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414l.707-.707z"
-              clip-rule="evenodd" />
+              clip-rule="evenodd"
+            />
           </svg>
         </button>
       </div>
 
       <div>
-        <button type="button"
+        <button
+          type="button"
           class="item__option btn-option inline-flex justify-center w-full shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
-          id="options-menu" aria-haspopup="true" aria-expanded="true" @click="openFilter">
+          id="options-menu"
+          aria-haspopup="true"
+          aria-expanded="true"
+          @click="openFilter"
+        >
           <div class="option_input">
             <span>Lọc Thêm</span>
           </div>
           <!-- Heroicon name: chevron-down -->
-          <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-            aria-hidden="true">
-            <path fill-rule="evenodd"
+          <svg
+            class="-mr-1 ml-2 h-5 w-5"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
               d="M6.293 7.707a1 1 0 011.414 0L10 9.586l2.293-2.293a1 1 0 011.414 0l.707.707a1 1 0 010 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414l.707-.707z"
-              clip-rule="evenodd" />
+              clip-rule="evenodd"
+            />
           </svg>
         </button>
       </div>
 
       <div>
-        <button type="button"
+        <button
+          type="button"
           class="item__option inline-flex justify-center w-full shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
-          id="options-menu" aria-haspopup="true" aria-expanded="true" @click="openFilter">
+          id="options-menu"
+          aria-haspopup="true"
+          aria-expanded="true"
+          @click="openFilter"
+        >
           <div class="option_input">
             <span>Đặt lại</span>
           </div>
           <!-- Heroicon name: chevron-down -->
-          <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-            aria-hidden="true">
-            <path fill-rule="evenodd"
+          <svg
+            class="-mr-1 ml-2 h-5 w-5"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
               d="M6.293 7.707a1 1 0 011.414 0L10 9.586l2.293-2.293a1 1 0 011.414 0l.707.707a1 1 0 010 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414l.707-.707z"
-              clip-rule="evenodd" />
+              clip-rule="evenodd"
+            />
           </svg>
         </button>
       </div>
 
       <div
         class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-white ring-opacity-5"
-        aria-labelledby="options-menu" role="menu">
+        aria-labelledby="options-menu"
+        role="menu"
+      >
         <div class="py-1" role="none" v-show="showFilter">
-          <div class="selectOptions" v-for="(type, index) in typeOfEstate" :key="index">
+          <div
+            class="selectOptions"
+            v-for="(type, index) in typeOfEstate"
+            :key="index"
+          >
             <label :for="type">{{ type }}</label>
             <input type="checkbox" :ref="type" @click="checkOption(type)" />
           </div>
@@ -141,7 +225,6 @@ export default {
       required: true,
     },
   },
-  watch: {},
   data() {
     return {
       showFilter: false,
@@ -161,8 +244,8 @@ export default {
     openFilter() {
       this.showFilter = !this.showFilter;
     },
-    updateSearchValue() {
-      this.$emit("update-search-query", this.searchQuery);
+    search() {
+      this.$emit("search", this.searchQuery);
     },
     checkOption(value) {
       this.typeOfEstate.forEach((option) => {
@@ -245,7 +328,6 @@ a.active {
 }
 
 input[type="text"]::before {
-  font-family: font-icon-bds;
   position: absolute;
   z-index: 1;
   text-align: center;
@@ -255,7 +337,8 @@ input[type="text"]::before {
   width: 16px;
   height: 16px;
   font-size: 16px;
-  content: "";
+  background: url("../../assets/Icon/search.svg");
+  content: '',
 }
 
 input[type="checkbox"] {

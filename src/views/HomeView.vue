@@ -1,10 +1,6 @@
 <template>
   <div class="home">
-    Name <input type="text" v-model="sinhvien.name" />
-    Age <input type="text" v-model="sinhvien.age" />
-    <p>{{sinhvien.name}}</p>
-    <p>{{sinhvien.age}}</p>
-    <button @click="submit">Submit</button>
+    <img src="../assets/image/Screenshot 2023-04-24 043330.jpg" alt="">
   </div>
 </template>
 
@@ -13,16 +9,11 @@ export default {
   name: "HomeView",
   data() {
     return {
-      sinhvien: {
-        name: null,
-        age: null,
-      }
+
     };
   },
   methods: {
-    submit() {
-      console.log(this.sinhvien);
-    }
+
   },
 };
 </script>

@@ -1,10 +1,13 @@
 <template>
   <div class="">
-    <SearchBarOnEstateList />
+    <SearchBarOnEstateList
+      :update-search-query="updateSearchQuery"
+      @search="updateSearchQuery"
+    />
     <div class="main-content">
       <div class="estate-list">
         <EstateCardOnListPage
-          v-for="estate in EstateForRent"
+          v-for="estate in filteredRealEstate"
           :key="estate.id"
           :estate="estate"
           @click="goToEstateDetails(estate.id)"
@@ -40,6 +43,7 @@ export default {
   data() {
     return {
       EstateForRent: [],
+      searchQuery: "",
       FilterByPrice: [
         "Thỏa thuận",
         "Dưới 500 triệu",
@@ -71,6 +75,18 @@ export default {
       ],
     };
   },
+  computed: {
+    filteredRealEstate() {
+      if (this.searchQuery === "") return this.EstateForRent;
+      else {
+        return this.EstateForRent.filter((estate) => {
+          return estate.tieu_de
+            .toLowerCase()
+            .includes(this.searchQuery.toLowerCase());
+        });
+      }
+    },
+  },
   created() {
     axios
       .get("http://127.0.0.1:8080/bat_dong_san/loai_nha_dat_cho_thue")
@@ -90,6 +106,9 @@ export default {
     goToEstateDetails(id) {
       this.$router.push(`/estate/${id}`);
     },
+    updateSearchQuery(searchQuery) {
+      this.searchQuery = searchQuery;
+    },
   },
 };
 </script>
@@ -98,6 +117,7 @@ export default {
 .container {
   width: 100%;
   margin: 0 auto;
+  overflow: hidden;
 }
 .main-content {
   display: flex;
@@ -105,6 +125,7 @@ export default {
 }
 .estate-list {
   width: 65%;
-  margin-right: 20px;
+  margin-left: -5%;
+  margin-right: -5%;
 }
 </style>
