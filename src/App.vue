@@ -15,6 +15,10 @@ export default {
 };
 </script>
 <style lang="scss">
+@font-face {
+  font-family: "Roboto";
+  src: url('./assets/font/Roboto-Regular.ttf');
+}
 *,
 *::before,
 *::after {
@@ -26,7 +30,6 @@ body {
   width: 100vw;
 }
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

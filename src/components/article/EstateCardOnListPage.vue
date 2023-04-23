@@ -1,23 +1,23 @@
 <template>
   <div class="re_card-full" @click="$router.push('/estate/' + estate.id)">
     <div class="re_card-image">
-      <div v-for="(image, index) in estate.image" :key="index">
-        <img :src="image" alt="" />
+      <div v-for="(anh, index) in getFirst4Images" :key="index">
+        <img :src="anh" alt="" />
       </div>
     </div>
     <div class="re_card-info">
-      <h3>{{ estate.title }}</h3>
+      <h3>{{ estate.tieu_de }}</h3>
       <div class="re_card-physicalInfo">
-        <p>{{ estate.price }}</p>
-        <p>{{ estate.area }}</p>
-        <p>{{ estate.address }}</p>
+        <p style="color:red; font-weight: 500;">{{ estate.gia }}</p>
+        <p style="color:red; font-weight: 500;">{{ estate.dien_tich }}</p>
+        <p>{{ estate.dia_chi_cu_the }}</p>
       </div>
-      <div class="re_card-descript">{{ estate.description }}</div>
+      <div class="re_card-descript">{{ estate.mo_ta }}</div>
       <div class="re_card-contact">
         <div class="re_card-author">
-          {{ estate.author.name }}
+          {{ estate.nguoi_dang }}
         </div>
-        <div class="re_card-number">{{ estate.author.phone }}</div>
+        <div class="re_card-number">{{ estate.sdt }}</div>
       </div>
     </div>
   </div>
@@ -32,13 +32,13 @@ export default {
       default: () => {},
     },
   },
-  computed: {
-    // splice4Image() {
-    //   return this.;
-    // },
-  },
   data() {
     return {};
+  },
+  computed: {
+    getFirst4Images() {
+      return this.estate.anh.slice(0, 4);
+    },
   },
   methods: {},
 };
@@ -56,6 +56,7 @@ export default {
   text-align: left;
   margin: 25px auto;
   width: 80%;
+  
 }
 .re_card-info {
   line-height: 1.2;
