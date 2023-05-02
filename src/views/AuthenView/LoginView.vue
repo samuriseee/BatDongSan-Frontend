@@ -1,88 +1,92 @@
 <template>
-  <div
-    class="flex w-full max-w-3xl mx-auto rounded-lg overflow-hidden shadow-xl container"
-  >
-    <div
-      class="xl:block bg-cover bg-center w-1/2"
-      style="
-        background-image: url('https://images.unsplash.com/photo-1550367088-9eb46b0ed5f9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ');
-      "
-    ></div>
-    <form class="">
-      <p>Xin chào bạn!</p>
-      <h3>Đăng nhập để tiếp tục</h3>
-      <div class="flex flex-col">
-        <input
-          type="email"
-          id="email"
-          placeholder="Email"
-          class="border rounded-lg p-2 my-2"
-        />
-        <input type="password"
-          id="password"
-          placeholder="Password"
-          class="border rounded-lg p-2 my-2"
-        >
-        <button class="loginButton">Đăng nhập</button>
+  <div class="wrapper">
+    <div class="container">
+      <div class="imageBox">
+        <img class="logo" src="@/assets/image/logo.png" alt="" />
+        <img class="person" src="@/assets/image/dangnhap.png" alt="" />
+        <h4>Tìm nhà đất</h4>
+        <h4>batdongsan.com.vn dẫn lối</h4>
       </div>
-    </form>
+      <form @submit.prevent="onSubmit">
+        <h5>Xin chào bạn!</h5>
+        <h3>Đăng nhập để tiếp tục</h3>
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Nhập email"
+            v-model="loginUser.email"
+            :class="{ invalid: $v.loginUser.email.$error }"
+          />
+          <div class="errorText" v-if="$v.loginUser.email.$error">
+            Email nhập lỗi
+          </div>
+        </div>
+        <div class="form-group">
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Nhập mật khẩu"
+            v-model="loginUser.password"
+            :class="{ invalid: $v.loginUser.password.$error }"
+          />
+          <div class="errorText" v-if="$v.loginUser.password.$error">
+            Password nhập lỗi
+          </div>
+        </div>
+        <button type="submit" class="loginButton">Đăng nhập</button>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+import { validationMixin } from "vuelidate";
+import { required, email, minLength } from "vuelidate/lib/validators";
+export default {
+  name: "LoginView",
+  mixins: [validationMixin],
+  data() {
+    return {
+      loginUser: {
+        email: "",
+        password: "",
+      },
+      token: "",
+    };
+  },
+  validations: {
+    loginUser: {
+      email: { required, email },
+      password: { required, minLength: minLength(6) },
+    },
+  },
+  methods: {
+    onSubmit() {
+      axios
+        .post("http://localhost:8000/auth/login", {
+          email: this.loginUser.email.trim(),
+          password: this.loginUser.password,
+        })
+        .then((response) => {
+          this.loginSuccess = response.data["login success"];
+          this.token = response.data.token;
+
+          // Store the token in local storage
+          localStorage.setItem("token", this.token);
+
+          // Redirect to the user's dashboard
+          alert("Login successful!");
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+  },
+};
 </script>
 
 <style scoped>
-.container {
-  width: 464px + 336px;
-  height: 567px;
-  display: flex;
-  justify-content: center;
-  margin-top: 10%;
-  font-family: "iran sans", Roboto;
-}
-.loginButton {
-  width: 100%;
-  position: relative;
-    height: 48px;
-    display: inline-block;
-    border-radius: 8px;
-    cursor: pointer;
-    white-space: nowrap;
-    width: fit-content;
-    background-color: rgb(224, 60, 49);
-    padding: 14px 16px;
-    color: rgb(255, 255, 255);
-    opacity: 1;
-    border: none;
-}
-form {
-  padding: 32px;
-    display: flex;
-    flex-direction: column;
-    -webkit-box-pack: justify;
-    flex-grow: 1;
-    justify-content: center;
-    height: 100%;
-    min-height: 576px;
-    text-align: left;
-}
-form p {
-  font-family: Lexend;
-    font-size: 16px;
-    line-height: 24px;
-    font-weight: 500;
-    color: rgb(44, 44, 44);
-}
-form h3 {
-  font-family: Lexend;
-    font-size: 24px;
-    line-height: 32px;
-    font-weight: 500;
-    color: rgb(44, 44, 44);
-    margin-top: 4px;
-    margin-bottom: 32px;
-}
+@import url("@/assets/css/sharedCssLoginRes.css");
 </style>
-

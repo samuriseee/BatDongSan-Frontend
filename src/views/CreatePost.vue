@@ -12,7 +12,7 @@ import SideBar from '@/components/layout/SideBar.vue';
 export default {
     name: "CreatePost",
     components: {
-    SideBar,
+      SideBar,
     },
 }
 </script>
