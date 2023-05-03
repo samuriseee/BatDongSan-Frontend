@@ -5,10 +5,21 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    
+    currentUser: null,
   },
   getters: {},
-  mutations: {},
-  actions: {},
+  mutations: {
+    setCurrentUser(state, user) {
+      state.currentUser = user;
+    },
+    signOut(state) {
+      state.currentUser = null;
+    },
+  },
+  actions: {
+    setCurrentUser({ commit }, user) {
+      commit("setCurrentUser", user);
+    }
+  },
   modules: {},
 });

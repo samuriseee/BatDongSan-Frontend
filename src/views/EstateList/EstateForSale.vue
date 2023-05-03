@@ -89,7 +89,7 @@ export default {
   watch: {},
   created() {
     axios
-      .get("http://127.0.0.1:8080/bat_dong_san/loai_nha_dat_ban")
+      .get("http://127.0.0.1:8000/bat_dong_san/loai_nha_dat_ban")
       .then((response) => {
         response.data = response.data.map((res) => {
           res.anh = res.anh.replace(/[[\]""]/g, "");

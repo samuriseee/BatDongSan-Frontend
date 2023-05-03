@@ -14,6 +14,7 @@ const routes = [
     path: "/profile",
     name: "profile",
     component: () => import("../views/AuthenView/ProfileView.vue"),
+    meta: {requiresAuth: true, roles: ['user']}
   },
   {
     path: "/login",
@@ -29,6 +30,7 @@ const routes = [
     path: "/createPost",
     name: "creatPost",
     component: () => import("../views/CreatePost.vue"),
+    meta: {requiresAuth: true, roles: ['user']}
   },
   {
     path: "/estate-for-sale",
@@ -44,8 +46,18 @@ const routes = [
     path:"/estate/:id",
     name:"estate",
     component: () => import("../views/EstateDetails.vue"),
+  },
+  {
+    path:"/admin",
+    name:"admin",
+    component: () => import("../views/AdminPage.vue"),
+    meta: {requiresAuth: true, roles: ['admin']}
   }
 ];
+
+// router.beforeEach((to, from, next) => {
+
+// });
 
 const router = new VueRouter({
   routes,

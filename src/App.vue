@@ -35,7 +35,7 @@ body {
   text-align: center;
   color: rgba(0, 0, 0, 0.85);
   line-height: 1.5715;
-  background-color: #fff;
+  background-color: #f9f9f9;
   width: inherit;
   overflow: hidden;
 }

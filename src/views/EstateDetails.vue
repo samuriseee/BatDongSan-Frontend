@@ -24,33 +24,33 @@
             </div>
 
             <div class="detail__left--specifications">
-            <div style="display:flex;"> 
+              <div style="display: flex">
                 <div class="left__specifications--item">
                   <p>Mức giá</p>
                   <h4>{{ estateDetail.gia }}</h4>
                   <span>~54.07 triệu/m²</span>
                 </div>
-  
+
                 <div class="left__specifications--item">
                   <p>Diện tích</p>
                   <h4>{{ estateDetail.dien_tich }} m²</h4>
                 </div>
-  
+
                 <div class="left__specifications--item">
                   <p>Phòng ngủ</p>
                   <h4>{{ estateDetail.so_phong_ngu }} PN</h4>
                 </div>
-            </div>
+              </div>
 
               <div class="left__specifications--icon">
                 <p>
-                    <img src="../assets/Icon/location.svg" alt="">
+                  <img src="../assets/Icon/location.svg" alt="" />
                 </p>
                 <p>
-                    <img src="../assets/Icon/phone.svg" alt="">
+                  <img src="../assets/Icon/phone.svg" alt="" />
                 </p>
                 <p>
-                    <img src="../assets/Icon/heart.svg" alt="">
+                  <img src="../assets/Icon/heart.svg" alt="" />
                 </p>
               </div>
             </div>
@@ -73,11 +73,7 @@
               <a href="#">Xem thêm 20 tin khác</a>
             </div>
 
-            <input
-              class="active"
-              type="button"
-              :value="estateDetail.sdt"
-            />
+            <input class="active" type="button" :value="estateDetail.sdt" />
             <input type="button" value="Gửi mail" />
             <input type="button" value="Yêu cầu liên hệ lại" />
           </div>
@@ -131,7 +127,7 @@ export default {
   methods: {
     async getEstateDetail(id) {
       const { data } = await axios.get(
-        `http://127.0.0.1:8080/bat_dong_san/${id}`
+        `http://127.0.0.1:8000/bat_dong_san/${id}`
       );
       data.anh = data.anh.replace(/[[\]""]/g, "");
       data.anh = data.anh.split(",");
@@ -322,7 +318,7 @@ export default {
   padding: 15px;
   margin-bottom: 16px;
   text-align: left;
-  background-color: #F2F2F2;
+  background-color: #f2f2f2;
   margin-top: 15px;
 }
 .detail__right--description li {
