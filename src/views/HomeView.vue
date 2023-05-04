@@ -1,19 +1,33 @@
 <template>
   <div class="home">
-    <img src="../assets/image/Screenshot 2023-04-24 043330.jpg" alt="">
+    <button @click="SendToken">Send token to get curren user</button>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "HomeView",
   data() {
-    return {
-
-    };
+    return {};
   },
   methods: {
-
+    SendToken() {
+      let token = localStorage.getItem("token");
+      let API = `${process.env.API}/auth/currentUser`;
+      axios
+        .get(API, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 };
 </script>
@@ -22,5 +36,15 @@ export default {
 .home {
   text-align: center;
   color: #2c3e50;
+}
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: 1px solid #2c3e50;
+  background-color: #fff;
+  color: #2c3e50;
+  font-size: 16px;
+  cursor: pointer;
 }
 </style>
