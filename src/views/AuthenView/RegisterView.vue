@@ -71,8 +71,13 @@
           </div>
         </div>
         <button type="submit" class="loginButton">Đăng ký</button>
-        <h6 style="margin-top: 10px;">
-          Bạn đã có tài khoản? <router-link style="text-decoration: underline; color: red;" to="/login">Đăng nhập</router-link>
+        <h6 style="margin-top: 10px">
+          Bạn đã có tài khoản?
+          <router-link
+            style="text-decoration: underline; color: red"
+            to="/login"
+            >Đăng nhập</router-link
+          >
         </h6>
       </form>
     </div>
@@ -128,7 +133,7 @@ export default {
       }
     },
     register() {
-      let API = "http://localhost:8000/auth/register";
+      let API = `http://localhost:8000/auth/register`;
       axios
         .post(API, {
           name: this.newUser.name,

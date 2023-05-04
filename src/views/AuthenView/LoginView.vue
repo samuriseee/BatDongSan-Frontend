@@ -44,6 +44,7 @@
 import axios from "axios";
 import { validationMixin } from "vuelidate";
 import { required, email, minLength } from "vuelidate/lib/validators";
+import { mapActions } from "vuex";
 export default {
   name: "LoginView",
   mixins: [validationMixin],
@@ -63,9 +64,11 @@ export default {
     },
   },
   methods: {
+    ...mapActions(["getCurrentUserInfo"]),
     onSubmit() {
+      const API = `http://localhost:8000/auth/login`;
       axios
-        .post("http://localhost:8000/auth/login", {
+        .post(API, {
           email: this.loginUser.email.trim(),
           password: this.loginUser.password,
         })
@@ -76,8 +79,9 @@ export default {
           // Store the token in local storage
           localStorage.setItem("token", this.token);
 
-          // Redirect to the user's dashboard
+          this.getCurrentUserInfo(this.token);
           alert("Login successful!");
+          this.$router.push("/");
         })
         .catch((error) => {
           console.error(error);
