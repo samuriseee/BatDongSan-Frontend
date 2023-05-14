@@ -10,7 +10,11 @@ export default new Vuex.Store({
     allRentTypes: null,
     allBuyTypes: null,
   },
-  getters: {},
+  getters: {
+    isAuthenticated(state) {
+      return !!state.currentUser;
+    },
+  },
   mutations: {
     setCurrentUser(state, user) {
       state.currentUser = user;

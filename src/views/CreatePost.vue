@@ -27,11 +27,7 @@
             id="title"
             v-model="newEstatePost.LoaiBDS"
           >
-            <option
-              v-for="type in AllRealEstateType"
-              :key="type.ID"
-              :value="type.LoaiBDS"
-            >
+            <option v-for="type in AllRealEstateType" :key="type.ID">
               {{ type.LoaiBDS }}
             </option>
           </select>
@@ -96,6 +92,7 @@
             type="text"
             class="form-control"
             id="title"
+            v-model="newEstatePost.DiaChi"
             placeholder="Bạn có thể bổ sung vách hẻm, ngõ,..."
           />
         </div>
@@ -108,6 +105,7 @@
             type="text"
             class="form-control"
             id="title"
+            v-model="newEstatePost.TieuDe"
             placeholder="Nhập tiêu đề bài viết"
           />
           <span class="note">tối thiểu 30 ký tự, tối đa 99 ký tự</span>
@@ -118,6 +116,7 @@
             class="form-control"
             id="title"
             placeholder="Nhập mô tả bài viết"
+            v-model="newEstatePost.MoTa"
             rows="5"
           ></textarea>
           <span class="note">tối thiểu 30 ký tự, tối đa 999 ký tự</span>
@@ -131,6 +130,7 @@
             type="text"
             class="form-control"
             id="title"
+            v-model="newEstatePost.DienTich"
             placeholder="Nhập diện tích bất động sản"
           />
         </div>
@@ -141,12 +141,17 @@
               type="text"
               class="form-control"
               id="title"
+              v-model="newEstatePost.MucGia"
               placeholder="Nhập giá bất động sản"
             />
           </div>
           <div class="form-group">
             <label for="title">Đơn vị</label>
-            <select class="form-control" id="title">
+            <select
+              class="form-control"
+              id="title"
+              v-model="newEstatePost.DonVi"
+            >
               <option>VND</option>
               <option>Giá/m2</option>
               <option>Thoả thuận</option>
@@ -275,7 +280,13 @@
       <div class="imageSection info">
         <h3>Hình Ảnh</h3>
         <div id="uploadImage">
-          <input type="file" accept="image/*,.heic" multiple autocomplete="off" tabindex="-1">
+          <input
+            type="file"
+            accept="image/*,.heic"
+            multiple
+            autocomplete="off"
+            tabindex="-1"
+          />
           <img src="@/assets/Icon/uploadFileIcon.svg" alt="" />
           <div>Bấm để chọn ảnh cần tải lên</div>
           <div>hoặc kéo thả ảnh vào đây</div>
@@ -289,6 +300,8 @@
             type="text"
             class="form-control"
             id="title"
+            v-model="CurrentUserInfo.HoTen"
+            disabled
             placeholder="Nhập họ và tên"
           />
         </div>
@@ -298,6 +311,8 @@
             type="text"
             class="form-control"
             id="title"
+            v-model="CurrentUserInfo.SDT"
+            disabled
             placeholder="Nhập số điện thoại"
           />
         </div>
@@ -307,26 +322,51 @@
             type="text"
             class="form-control"
             id="title"
+            v-model="CurrentUserInfo.Email"
+            disabled
             placeholder="Nhập email"
           />
         </div>
       </div>
+      <div class="sticky">
+        <button class="btn btn-primary">Xem trước giao diện</button>
+        <button class="btn btn-primary" @click="CreatePost">Đăng tin</button>
+      </div>
     </div>
-    <!-- <div class="sticky">
-      <button class="btn btn-primary" @click="createPost">Xem trước giao diện</button>
-      <button class="btn btn-primary" @click="createPost">Đăng tin</button>
-    </div> -->
   </div>
 </template>
 
 <script>
 // import ACounTer from "@/components/CreatePost/ACounter.vue";
 import SelectTag from "@/components/CreatePost/SelectTag.vue";
+import axios from "axios";
+import { validationMixin } from "vuelidate";
+import { required } from "vuelidate/lib/validators";
 export default {
   name: "CreatePost",
   components: {
     SelectTag,
     // ACounTer,
+  },
+  mixins: [validationMixin],
+  validations: {
+    newEstatePost: {
+      TieuDe: {
+        required,
+      },
+      Gia: {
+        required,
+      },
+      DienTich: {
+        required,
+      },
+      DiaChi: {
+        required,
+      },
+      MoTa: {
+        required,
+      },
+    },
   },
   data() {
     return {
@@ -405,6 +445,7 @@ export default {
         MatTien: null,
         HinhAnh: null,
       },
+      CurrentUserInfo: this.$store.state.currentUser,
     };
   },
   computed: {
@@ -431,6 +472,16 @@ export default {
         return this.$store.state.allRentTypes;
       }
     },
+    convertTypeOfRealEstateToID() {
+      const type = this.newEstatePost.LoaiBDS;
+      if (type) {
+        const typeID = this.AllRealEstateType.find(
+          (item) => item.LoaiBDS === type
+        ).ID;
+        return typeID;
+      }
+      return null;
+    },
   },
   methods: {
     ChangeType() {
@@ -438,8 +489,20 @@ export default {
       this.isRent = !this.isRent;
       this.newEstatePost.LoaiBDS = null;
     },
-    increment() {
-      this.newEstatePost.SoPhongNgu++;
+    async CreatePost() {
+      const API = "http://localhost:8000/real_estate/CreateNewRealEstate";
+      const newPost = {
+        ...this.newEstatePost,
+        LoaiBDS: this.convertTypeOfRealEstateToID,
+        IDNguoiDung: this.CurrentUserInfo.ID,
+      };
+      const res = await axios.post(API, newPost);
+      if (res.status === 200) {
+        alert("Đăng tin thành công");
+        this.$router.push("/");
+      } else {
+        alert("Đăng tin thất bại");
+      }
     },
   },
 };
@@ -450,7 +513,7 @@ export default {
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   background-color: #f9f9f9;
   box-sizing: border-box;
 }
@@ -668,5 +731,47 @@ select option {
   margin-top: 16px;
   margin-bottom: 8px;
   cursor: pointer;
+}
+.sticky {
+  background-color: white;
+  width: 100%;
+  padding: 8px 24px;
+  box-shadow: rgba(182, 182, 182, 0.18) 0px -2px 8px;
+  margin-top: 5px;
+  border-radius: 8px 8px 4px 4px;
+  display: flex;
+  justify-content: space-between;
+  position: sticky;
+  bottom: 0px;
+}
+.sticky .btn {
+  position: relative;
+  height: 48px;
+  display: inline-block;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  text-align: center;
+  width: fit-content;
+  padding: 12px 16px 12px 16px;
+  color: rgb(255, 255, 255);
+  opacity: 1;
+  border: none;
+  cursor: pointer;
+}
+.sticky .btn:nth-child(1) {
+  background-color: rgb(255, 255, 255);
+  color: rgb(44, 44, 44);
+  opacity: 1;
+  border: 1px solid rgb(204, 204, 204);
+}
+.sticky .btn:nth-child(2) {
+  background-color: rgb(224, 60, 49);
+}
+input[type="text"]:disabled {
+  background-color: #e6e4e4;
+  color: rgb(44, 44, 44);
+  opacity: 1;
+  border: 1px solid rgb(204, 204, 204);
 }
 </style>
