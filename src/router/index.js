@@ -27,6 +27,16 @@ const routes = [
     component: () => import("../views/AuthenView/RegisterView.vue"),
   },
   {
+    path: "/forgot-password",
+    name: "forgot-password",
+    component: () => import("../views/AuthenView/ForgotPasswordView.vue"),
+  },
+  {
+    path: "/reset-password/:token",
+    name: "reset-password",
+    component: () => import("../views/AuthenView/ResetPasswordView.vue"),
+  },
+  {
     path: "/createPost",
     name: "creatPost",
     component: () => import("../views/CreatePost.vue"),
