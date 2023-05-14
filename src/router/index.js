@@ -1,8 +1,20 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import store from "@/store";
 // import store from "../store/index.js";
 Vue.use(VueRouter);
+
+const requireAuth = (to, from, next) => {
+  if (store.getters.isAuthenticated) {
+    // If the user is authenticated, allow them to access the route
+    next();
+  } else {
+    // If the user is not authenticated, redirect them to the login page
+    alert("Bạn phải đăng nhập để tiếp tục!")
+    next({ name: "login" });
+  }
+};
 
 const routes = [
   {
@@ -14,7 +26,7 @@ const routes = [
     path: "/profile",
     name: "profile",
     component: () => import("../views/AuthenView/ProfileView.vue"),
-    meta: { requiresAuth: true, roles: ["user"] },
+    beforeEnter: requireAuth,
   },
   {
     path: "/login",
@@ -40,7 +52,7 @@ const routes = [
     path: "/createPost",
     name: "creatPost",
     component: () => import("../views/CreatePost.vue"),
-    meta: { requiresAuth: true, allowedRoles: ["user", "admin"] },
+    beforeEnter: requireAuth,
   },
   {
     path: "/estate-for-sale",
@@ -61,7 +73,7 @@ const routes = [
     path: "/admin-page",
     name: "admin",
     component: () => import("../views/AdminDashboard/AdminPage.vue"),
-    meta: { requiresAuth: true, allowedRoles: ["admin"] },
+    beforeEnter: requireAuth,
     children: [
       {
         path: "/user-management",
