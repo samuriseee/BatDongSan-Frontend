@@ -89,14 +89,14 @@ export default {
   watch: {},
   created() {
     axios
-      .get("http://127.0.0.1:8000/bat_dong_san/loai_nha_dat_ban")
+      .get("http://localhost:8000/real_estate/getBuyRealEstate")
       .then((response) => {
         response.data = response.data.map((res) => {
-          res.anh = res.anh.replace(/[[\]""]/g, "");
-          res.anh = res.anh.split(",");
+          res.HinhAnh = JSON.parse(res.HinhAnh);
           return res;
         });
         this.EstateForSale = response.data;
+        console.log(this.EstateForSale);
       })
       .catch((error) => {
         console.log(error);

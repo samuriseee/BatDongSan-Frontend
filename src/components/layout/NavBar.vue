@@ -8,7 +8,9 @@
         <div>
           <div class="dropdown inline-block relative">
             <button class="font-semibold py-2 px-4 rounded inline-flex">
-              <span class="mr-1">Nhà đất bán</span>
+              <router-link to="/estate-for-sale" class="mr-1"
+                >Nhà đất bán</router-link
+              >
             </button>
             <ul class="dropdown-menu absolute hidden">
               <li class="" v-for="item in allBuyTypes" :key="item.id">
@@ -20,7 +22,9 @@
         <div>
           <div class="dropdown inline-block relative">
             <button class="font-semibold py-2 px-4 rounded inline-flex">
-              <span class="mr-1">Nhà đất cho thuê</span>
+              <router-link to="/estate-for-rent" class="mr-1"
+                >Nhà đất cho thuê</router-link
+              >
             </button>
             <ul class="dropdown-menu absolute hidden">
               <li class="" v-for="item in allRentTypes" :key="item.id">
@@ -82,7 +86,6 @@ export default {
       return this.$store.state.allRentTypes;
     },
     allBuyTypes() {
-      console.log("Buy type", this.$store.state.allBuyTypes);
       return this.$store.state.allBuyTypes;
     },
   },
