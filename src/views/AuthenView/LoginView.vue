@@ -45,6 +45,7 @@ import axios from "axios";
 import { validationMixin } from "vuelidate";
 import { required, email, minLength } from "vuelidate/lib/validators";
 import { mapActions } from "vuex";
+
 export default {
   name: "LoginView",
   mixins: [validationMixin],
