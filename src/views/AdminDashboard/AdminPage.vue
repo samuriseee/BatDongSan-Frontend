@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <SidebarAdmin />
+    <SidebarAdmin style="position: relative" />
     <router-view class="dashboard_container"></router-view>
   </div>
 </template>
@@ -24,12 +24,15 @@ export default {
   width: 100%;
   height: 100vh;
   background-color: #f5f5f5;
+  display: flex;
 }
 .dashboard_container {
-  width: 80%;
+  width: 100%;
   height: 100%;
   background-color: #f5f5f5;
-  margin-left: 285px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-top: 20px;
 }
 </style>

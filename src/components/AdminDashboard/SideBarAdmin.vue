@@ -5,9 +5,6 @@
     aria-label="Sidebar"
   >
     <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 light:bg-gray-800">
-      <div class="flex items-center pl-2.5 mb-5">
-        <img src="@/assets/image/logo.png" class="h-6 mr-3 sm:h-7" />
-      </div>
       <ul class="space-y-2 font-medium">
         <li>
           <router-link
@@ -172,5 +169,6 @@ aside {
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease-in-out;
+  text-align: left;
 }
 </style>
