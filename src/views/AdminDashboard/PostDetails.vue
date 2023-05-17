@@ -6,7 +6,8 @@
                     <div class="page_detail--img">
                         <!-- Hinh anh -->
                         <!-- <EstateInfoSessionVue :images="post.anh" /> -->
-                        <img src="https://file4.batdongsan.com.vn/resize/1275x717/2023/04/25/20230425113519-757a_wm.jpg" alt="">
+                        <img src="https://file4.batdongsan.com.vn/resize/1275x717/2023/04/25/20230425113519-757a_wm.jpg"
+                            alt="">
                     </div>
 
                     <div class="detail__left--content">
@@ -18,6 +19,7 @@
                                 <p style="font-size: 12px;">
                                     {{ post.DiaChi }}
                                 </p>
+                                <p class="TrangThaiTin" style="color: #ffffff;">{{ post.TrangThai }}</p>
                             </h3>
 
                         </div>
@@ -29,10 +31,8 @@
                                     <h4>
                                         {{ post.MucGia }} {{ post.DonVi }} VNĐ
                                     </h4>
-                                    <!-- TinhTienDienTich({{ post.MucGia }},{{ post.DienTich }}) -->
-                                    <span >
+                                    <span>
                                         572 triệu/m²
-                                        <!-- {{ t }} triệu/m² -->
                                     </span>
                                 </div>
 
@@ -74,6 +74,23 @@
                         <input class="active" type="button" :value="post.sdt" />
                         <input type="button" value="Gửi mail" />
                         <input type="button" value="Yêu cầu liên hệ lại" />
+
+                        <div class="Duyet_trangThai">
+                            <div v-if="post.TrangThai == 'vi phạm'">
+                                <button class="btnDuyet" @click="updatePost_TrangThaiThanhDaDuyet()">Hiển thị lại tin</button>
+                            </div>
+                            <div v-else-if="post.TrangThai == 'chưa duyệt'">
+                                <button class="btnDuyet" @click="updatePost_TrangThaiThanhDaDuyet()">Duyệt</button>
+                                <button class="btnKhongDuyet" @click="updatePost_TrangThaiThanhKhongDuocDuyet()">Không duyệt</button>
+                            </div>
+                            <div v-else-if="post.TrangThai == 'đã duyệt'">
+                                <button class="btnDuyet" @click="updatePost_TrangThaiThanhViPham()">Đánh dấu vi phạm</button>
+                            </div>
+                            <div v-else>
+                                <button class="btnDuyet" @click="updatePost_TrangThaiThanhDaDuyet()">Duyệt</button>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -90,7 +107,8 @@ export default {
         return {
             posts: [],
             id: this.$route.params.id,
-            t:null
+            t: null,
+            trangThai:null
         };
     },
     methods: {
@@ -100,9 +118,68 @@ export default {
             );
             this.posts = data;
         },
-        TinhTienDienTich(a,b){
-            this.t=a/b;
-            console.log(this.t);
+
+        BackPostS_management(){
+            this.$router.push(`/post-management`);
+        },
+        // BackPostS_management(){
+        //     this.$router.push(`/post-management);
+        // },
+        // 4 trang thái 
+        // 0: vi phạm
+        // 1: tin chưa duyệt
+        // 2: tin đã duyệt
+        // 3: tin không được duyệt
+
+        updatePost_TrangThaiThanhDaDuyet() {
+            const data = {
+                idU: this.$route.params.id,
+            };
+
+            axios.post('http://localhost:8000/post/updatePost_TrangThaiThanhDaDuyet', data)
+                .then(response => {
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+                alert("Bài đăng đã được hiển thị lên bảng tin");
+                this.BackPostS_management()
+
+        },
+
+        updatePost_TrangThaiThanhKhongDuocDuyet() {
+            const data = {
+                idU: this.$route.params.id,
+            };
+
+            axios.post('http://localhost:8000/post/updatePost_TrangThaiThanhKhongDuocDuyet', data)
+                .then(response => {
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+                alert("Bạn đã không phê duyệt bài đăng này");
+                this.BackPostS_management()
+
+        },
+
+        updatePost_TrangThaiThanhViPham() {
+            const data = {
+                idU: this.$route.params.id,
+            };
+
+            axios.post('http://localhost:8000/post/updatePost_TrangThaiThanhViPham', data)
+                .then(response => {
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+                alert("Đã đánh dấu bài đăng vi phạm");
+                this.BackPostS_management()
+                
         }
 
     },
@@ -110,14 +187,15 @@ export default {
 };
 
 </script>
-<style>
+<style scoped >
 .wrapper__detail {
     display: flex;
     justify-content: center;
     margin-top: 25px;
     border-radius: 10px;
     height: auto;
-    margin-bottom: 1100px;
+    margin-bottom: 100px;
+
 }
 
 .page_detail {
@@ -132,6 +210,15 @@ export default {
     height: 800px;
 }
 
+.TrangThaiTin {
+    background-color: #e2764b;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    width: 200px;
+
+}
+
 .page_detail--left {
     width: 1000px;
     height: 100%;
@@ -144,7 +231,9 @@ export default {
 
 .detail__left--title {
     margin-top: 5px;
+    display: flex;
 }
+
 .page_detail--img {
     width: 650px;
     height: 300px;
@@ -153,7 +242,8 @@ export default {
     justify-content: center;
 
 }
-.page_detail--img img{
+
+.page_detail--img img {
     width: auto;
     height: auto;
 }
@@ -209,6 +299,8 @@ export default {
 .left__specifications--icon {
     display: flex;
 }
+
+
 
 .left__specifications--icon p {
     margin: 0 7px;
@@ -298,6 +390,28 @@ export default {
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
+}
+
+.Duyet_trangThai button {
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.Duyet_trangThai button:hover {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    background-color: #489a6e;
+    color: #ffffff;
 }
 
 .page_detail--right .active {
