@@ -1,6 +1,6 @@
 <template>
     <div>
-        <form @submit.prevent="onSubmit">
+        <form  @submit.prevent="onSubmit">
             <label for="fname">Tên Nhân Viên:</label><br>
             <input
                 type="text"
@@ -30,7 +30,7 @@
                 type="text"
                 class="form-control" 
                 placeholder="Nhập họ và tên"
-                v-model="newEmployee.email"
+                v-model="newEmployee.Email"
             /><br><br>
 
             <label for="fname">Ngày Sinh:</label><br>
@@ -48,84 +48,82 @@
     </div>
 </template>
 <script>
-    import axios from 'axios';
-    import { validationMixin } from "vuelidate";
-import { required, email } from "vuelidate/lib/validators";
-    export default ({
-        name: "AddEmployee",
-        mixins: [validationMixin],
-        created(){
-            this.getEmployees();
+import axios from "axios";
+import { validationMixin } from "vuelidate";
+import {  email, minLength } from "vuelidate/lib/validators";
+export default {
+  name: "AddEmployee",
+  mixins: [validationMixin],
+  data() {
+    return {
+        newEmployee: {
+            TenNhanVien: "",
+            MaBoPhan: "",
+            SoDienThoai: "",
+            Email: "",
+            NgaySinh: "",
         },
-        data (){
-            return {     
-                newEmployee: {
-                    TenNhanVien: "",
-                    MaBoPhan: "",
-                    SoDienThoai: "",
-                    Email: "",
-                    NgaySinh: "",
-            },
-                
-            };
-        },
-        validations: {
-            newEmployee: {
-                TenNhanVien: {
-                    required,
-                },
-                MaBoPhan: {
-                    required,
-                
-                },
-                SoDienThoai: {
-                    required,
-                    email,
-                },
-                Email: {
-                    required,
-                
-                },
-                NgaySinh: {
-                    required,
-                    
-                },
-            },
-        },
-        methods:{
-           
-            onSubmit() {
-                this.$v.$touch();
-                if (!this.$v.$invalid) {
-                    this.register();
-                }
-            },
-            register() {
-            let API = `http://localhost:8000/employee/createEmployee`;
-            axios
-                .post(API, {
-                TenNhanVien: this.newEmployee.TenNhanVien,
-                MaBoPhan: this.newEmployee.MaBoPhan,
-                SoDienThoai: this.newEmployee.SoDienThoai,
-                Email: this.newEmployee.Email,
-                NgaySinh: this.newEmployee.NgaySinh,
-                })
-                .then((res) => {
-                alert(res.data.message);
-                })
-                .catch((err) => {
-                console.log(err);
-                });
-            },
-                    // goToEmployeeDetail(id){
-                    //     this.$router.push('employee-management/${id}');
-                    // }
-                }
-            })
+    };
+  },
+  validations: {
+    newEmployee: {
+        TenNhanVien: {
+        required: "Bắt buộc nhập tên",
+      },
+      MaBoPhan: {
+        required: "Bắt buộc nhập mã",
+      },
+      SoDienThoai: {
+        required: "Bắt buộc nhập sdt",
+        minLength: minLength(8),
+      },
+      Email: {
+        required: "Bắt buộc nhập email",
+        email,
+      },
+      NgaySinh: {
+      },
+    },
+  },
+  methods: {
+    onSubmit() {  
+        this.register();
+        this.Back_admin_page();
+    },
+    Back_admin_page(){
+      this.$router.push(`/employee-management`);
+    },
+    register() {  
+      let API = `http://localhost:8000/employee/createEmployee`;
+      axios
+        .post(API, {
+            TenNhanVien: this.newEmployee.TenNhanVien,
+            MaBoPhan: this.newEmployee.MaBoPhan,
+            SoDienThoai: this.newEmployee.SoDienThoai,
+            Email: this.newEmployee.Email,
+            NgaySinh: this.newEmployee.NgaySinh,
+        })
+        .then((res) => {
+          alert(res.data.message);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    
+  },
+};
+
 </script>
 <style>
     .submit{
         color: red;
         border: 1px solid red;
     }
+    .submit:hover{
+      color: rgb(157, 199, 5);
+        border: 1px solid rgb(157, 199, 5);
+    }
+    
+
 </style>

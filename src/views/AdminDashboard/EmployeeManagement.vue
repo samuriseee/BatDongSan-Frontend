@@ -29,10 +29,10 @@
                     <tr class="w3-light-grey">
                         <th></th>
                         <th>Nhân viên </th>
-                        <th>Số điện thoại</th>
-                        <th>Số bài đăng</th>
-                        <th>Số bài đăng đợi duyệt</th>
-                        <th>Tổng</th>
+                        <th>Mã Bộ Phận</th>
+                        <th>Số Điện Thoại</th>
+                        <th>Email</th>
+                        <th>Ngày Sinh</th>
                     </tr>                  
                 </thead>
                 <tbody  > 
