@@ -21,9 +21,7 @@
                                 </p>
                                 <p class="TrangThaiTin" style="color: #ffffff;">{{ post.TrangThai }}</p>
                             </h3>
-
                         </div>
-
                         <div class="detail__left--specifications">
                             <div style="display: flex">
                                 <div class="left__specifications--item">
@@ -122,6 +120,7 @@ export default {
         BackPostS_management(){
             this.$router.push(`/post-management`);
         },
+        
         // BackPostS_management(){
         //     this.$router.push(`/post-management);
         // },
@@ -268,7 +267,6 @@ export default {
 
 .detail__left--specifications {
     display: flex;
-    margin: 20px 0;
     padding: 10px 0;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;

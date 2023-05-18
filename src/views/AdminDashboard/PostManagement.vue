@@ -42,7 +42,7 @@
                 {{ post.MucGia }} VNĐ
               </td>
               <td>
-                {{ post.DienTich }}
+                {{ post.DienTich }} m²
               </td>
               <td class="TrangThai">
                 {{ post.TrangThai }}
