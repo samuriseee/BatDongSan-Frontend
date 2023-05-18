@@ -69,6 +69,11 @@ const routes = [
         name: "post-management",
         component: () => import("../views/AdminDashboard/PostManagement.vue"),
       },
+      {
+        path: "/addemployee",
+        name: "addemployee",
+        component: () => import("../views/AdminDashboard/AddEmployee.vue"),
+      },
     ],
   },
 ];
