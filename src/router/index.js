@@ -11,7 +11,7 @@ const requireAuth = (to, from, next) => {
     next();
   } else {
     // If the user is not authenticated, redirect them to the login page
-    alert("Bạn phải đăng nhập để tiếp tục!")
+    alert("Bạn phải đăng nhập để tiếp tục!");
     next({ name: "login" });
   }
 };

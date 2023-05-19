@@ -5,26 +5,29 @@
         <img src="@/assets/image/logo.png" alt="" @click="ToHome()" />
       </div>
       <nav>
-        <!-- <router-link to="/estate-for-sale">Nhà đất bán</router-link>
-        <router-link to="/estate-for-rent">Nhà cho thuê</router-link> -->
-        <div
-          class="dropdown"
-          @mouseover="isOpen = true"
-          @mouseleave="isOpen = false"
-        >
-          <a href="">Nhà đất bán</a>
-          <ul class="dropdown-menu" v-show="isOpen" v-if="AllBuyTypes">
-            <!-- <li v-for="item in AllBuyTypes" :key="item.id">
-              <router-link>
-                {{ item.LoaiBDS }}
-              </router-link>
-            </li> -->
-            <li>DCM</li>
-            <li>DCM</li>
-            <li>DCm</li>
-            <li>DMC</li>
-            <li></li>
-          </ul>
+        <div>
+          <div class="dropdown inline-block relative">
+            <button class="font-semibold py-2 px-4 rounded inline-flex">
+              <span class="mr-1">Nhà đất bán</span>
+            </button>
+            <ul class="dropdown-menu absolute hidden">
+              <li class="" v-for="item in allBuyTypes" :key="item.id">
+                <a class="" href="#">{{ item.LoaiBDS }}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="dropdown inline-block relative">
+            <button class="font-semibold py-2 px-4 rounded inline-flex">
+              <span class="mr-1">Nhà đất cho thuê</span>
+            </button>
+            <ul class="dropdown-menu absolute hidden">
+              <li class="" v-for="item in allRentTypes" :key="item.id">
+                <a class="" href="#">{{ item.LoaiBDS }}</a>
+              </li>
+            </ul>
+          </div>
         </div>
 
         <div v-if="isLoggedIn && isAdmin">
@@ -55,6 +58,7 @@
 </template>
 
 <script>
+// import axios from 'axios';
 export default {
   name: "NavBar",
   mounted() {
@@ -74,18 +78,16 @@ export default {
     isAdmin() {
       return this.$store.state.currentUser.role === "admin";
     },
-    AllRentTypes() {
-      return this.$store.state.AllRentTypes;
+    allRentTypes() {
+      return this.$store.state.allRentTypes;
     },
-    AllBuyTypes() {
-      console.log("Buy type", this.$store.state.AllBuyTypes);
-      return this.$store.state.AllBuyTypes;
+    allBuyTypes() {
+      console.log("Buy type", this.$store.state.allBuyTypes);
+      return this.$store.state.allBuyTypes;
     },
   },
   data() {
-    return {
-      isOpen: false,
-    };
+    return {};
   },
   methods: {
     ToHome() {
@@ -222,32 +224,27 @@ p {
 #divUserStt a:hover {
   color: rgb(224, 60, 49);
 }
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-.dropdown ul {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  background: #fff;
-  padding: 10px 0;
-  border-radius: 8px;
-  box-shadow: 0px 4px 10px rgba(182, 182, 182, 0.18);
+.dropdown-menu {
   display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 200px;
+  box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+  text-align: center;
+  padding: 0 15px;
 }
-.dropdown ul li {
-  padding: 10px 20px;
-  font-size: 16px;
-  color: #000;
-  cursor: pointer;
+.dropdown-menu li {
+  display: block;
+  text-align: center;
+  margin: 0 auto;
 }
-.dropdown ul li:hover {
-  background: #f5f5f5;
+.dropdown-menu li a {
+  margin: 0 auto;
+  font-weight: 400;
+  font-size: 14px;
 }
-.dropdown:hover ul {
+.dropdown:hover .dropdown-menu {
   display: block;
 }
-
 </style>
