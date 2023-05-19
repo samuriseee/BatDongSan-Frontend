@@ -5,8 +5,28 @@
         <img src="@/assets/image/logo.png" alt="" @click="ToHome()" />
       </div>
       <nav>
-        <router-link to="/estate-for-sale">Nhà đất bán</router-link>
-        <router-link to="/estate-for-rent">Nhà cho thuê</router-link>
+        <!-- <router-link to="/estate-for-sale">Nhà đất bán</router-link>
+        <router-link to="/estate-for-rent">Nhà cho thuê</router-link> -->
+        <div
+          class="dropdown"
+          @mouseover="isOpen = true"
+          @mouseleave="isOpen = false"
+        >
+          <a href="">Nhà đất bán</a>
+          <ul class="dropdown-menu" v-show="isOpen" v-if="AllBuyTypes">
+            <!-- <li v-for="item in AllBuyTypes" :key="item.id">
+              <router-link>
+                {{ item.LoaiBDS }}
+              </router-link>
+            </li> -->
+            <li>DCM</li>
+            <li>DCM</li>
+            <li>DCm</li>
+            <li>DMC</li>
+            <li></li>
+          </ul>
+        </div>
+
         <div v-if="isLoggedIn && isAdmin">
           <router-link to="/admin-page">Admin</router-link>
         </div>
@@ -37,7 +57,10 @@
 <script>
 export default {
   name: "NavBar",
-
+  mounted() {
+    this.$store.dispatch("getAllRentTypes");
+    this.$store.dispatch("getAllBuyTypes");
+  },
   computed: {
     spliceUsernameToMakeAvatar() {
       return this.$store.state.currentUser.HoTen.slice(0, 1);
@@ -51,9 +74,18 @@ export default {
     isAdmin() {
       return this.$store.state.currentUser.role === "admin";
     },
+    AllRentTypes() {
+      return this.$store.state.AllRentTypes;
+    },
+    AllBuyTypes() {
+      console.log("Buy type", this.$store.state.AllBuyTypes);
+      return this.$store.state.AllBuyTypes;
+    },
   },
   data() {
-    return {};
+    return {
+      isOpen: false,
+    };
   },
   methods: {
     ToHome() {
@@ -71,6 +103,7 @@ p {
   font-weight: 400;
   color: rgb(44, 44, 44);
 }
+
 .re__full-menu {
   background: #fff;
   width: 100%;
@@ -84,28 +117,33 @@ p {
   -webkit-box-sizing: border-box;
   box-shadow: 0px 4px 10px rgba(182, 182, 182, 0.18);
 }
+
 .navigation {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
 }
+
 .rightSide {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .rightSide .logo img {
   height: 48px;
   width: 160px;
   object-fit: cover;
 }
+
 .navigation nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-right: 20px;
 }
+
 .navigation nav a {
   text-decoration: none;
   color: #000;
@@ -118,17 +156,21 @@ p {
   float: left;
   margin: 0 10px;
 }
+
 .navigation nav a:hover {
   color: #42b983;
 }
+
 .leftSide {
   display: flex;
   align-items: center;
 }
+
 .leftSide div {
   display: table-cell;
   vertical-align: middle;
 }
+
 .leftSide .CreatePost a {
   color: #2c2c2c;
   background: #fff;
@@ -144,22 +186,26 @@ p {
   cursor: pointer;
   transition: 0.2s ease-in-out;
 }
+
 .leftSide .CreatePost a:hover {
   background-color: rgb(255, 255, 255);
   color: rgb(224, 60, 49);
   opacity: 1;
   border: 1px solid rgb(224, 60, 49);
 }
+
 #divUserStt {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
+
 .profile {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .avatar {
   width: 48px;
   height: 48px;
@@ -172,7 +218,36 @@ p {
   align-items: center;
   margin-right: 10px;
 }
+
 #divUserStt a:hover {
   color: rgb(224, 60, 49);
 }
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown ul {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  padding: 10px 0;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(182, 182, 182, 0.18);
+  display: none;
+}
+.dropdown ul li {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #000;
+  cursor: pointer;
+}
+.dropdown ul li:hover {
+  background: #f5f5f5;
+}
+.dropdown:hover ul {
+  display: block;
+}
+
 </style>

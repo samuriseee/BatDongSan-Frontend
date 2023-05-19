@@ -12,12 +12,13 @@ export default {
   components: {
     NavBar,
   },
+
 };
 </script>
 <style lang="scss">
 @font-face {
   font-family: "Roboto";
-  src: url('./assets/font/Roboto-Regular.ttf');
+  src: url("./assets/font/Roboto-Regular.ttf");
 }
 *,
 *::before,

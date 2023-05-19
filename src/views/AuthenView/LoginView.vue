@@ -35,6 +35,9 @@
           </div>
         </div>
         <button type="submit" class="loginButton">Đăng nhập</button>
+        <div>
+          <router-link to="/forgot-password">Quên mật khẩu</router-link>
+        </div>
       </form>
     </div>
   </div>
