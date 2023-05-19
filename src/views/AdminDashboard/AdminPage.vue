@@ -1,39 +1,7 @@
 <template>
   <div class="wrapper">
-    <SidebarAdmin />
-    <router-view></router-view>
-    <!-- <div class="table" v-for="post in posts" :key="post.id">
-      <div class="row">
-        <div class="col-1">{{ post.ID }}</div>
-        <div class="col-2">{{ post.TieuDe }}</div>
-        <div class="col-2">{{ post.DiaChi }}</div>
-        <div class="col-2">{{ post.MucGia }}</div>
-        <div class="col-1">
-          <button class="btn btn-primary">Sửa</button>
-        </div>
-      </div>
-    </div> -->
-    <caption>
-      Statement Summary
-    </caption>
-    <table v-for="item in posts" :key="item.id">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Tiêu Đề</th>
-          <th scope="col">giá</th>
-          <th scope="col">Diện tích</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>{{ item.ID }}</td>
-          <td>{{ item.TieuDe }}</td>
-          <td>{{ item.MucGia }}</td>
-          <td>{{ item.DienTich }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <SidebarAdmin style="position: relative" />
+    <router-view class="dashboard_container"></router-view>
   </div>
 </template>
 
@@ -70,6 +38,16 @@ export default {
   width: 100%;
   height: 100vh;
   background-color: #f5f5f5;
+  display: flex;
+}
+.dashboard_container {
+  width: 100%;
+  height: 100%;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
 }
 
 table {

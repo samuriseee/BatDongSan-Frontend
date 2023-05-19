@@ -64,11 +64,13 @@ const routes = [
     name: "estate-for-rent",
     component: () => import("../views/EstateList/EstateForRent.vue"),
   },
+
   {
     path: "/estate/:id",
     name: "estate",
     component: () => import("../views/EstateDetails.vue"),
   },
+  
   {
     path: "/admin-page",
     name: "admin",
@@ -90,6 +92,11 @@ const routes = [
         path: "/post-management",
         name: "post-management",
         component: () => import("../views/AdminDashboard/PostManagement.vue"),
+      },
+      {
+        path: "/post-management/:id",
+        name: "post-management",
+        component: () => import("../views/AdminDashboard/PostDetails.vue"),
       },
     ],
   },

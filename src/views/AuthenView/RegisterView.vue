@@ -11,6 +11,7 @@
         <h5>Xin chào bạn!</h5>
         <h3>Đăng ký để tiếp tục</h3>
         <div class="form-group">
+          
           <input
             type="text"
             class="form-control"

@@ -37,6 +37,7 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+
 button {
   margin-top: 20px;
   padding: 10px 20px;
