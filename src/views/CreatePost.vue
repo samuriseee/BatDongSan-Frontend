@@ -280,16 +280,7 @@
       <div class="imageSection info">
         <h3>Hình Ảnh</h3>
         <div id="uploadImage">
-          <input
-            type="file"
-            accept="image/*,.heic"
-            multiple
-            autocomplete="off"
-            tabindex="-1"
-          />
-          <img src="@/assets/Icon/uploadFileIcon.svg" alt="" />
-          <div>Bấm để chọn ảnh cần tải lên</div>
-          <div>hoặc kéo thả ảnh vào đây</div>
+          <CloudinaryUpload @image-uploaded="handleImageUploaded" />
         </div>
       </div>
       <div class="contact info">
@@ -342,10 +333,12 @@ import SelectTag from "@/components/CreatePost/SelectTag.vue";
 import axios from "axios";
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
+import CloudinaryUpload from "@/components/CreatePost/CloudinaryUpload.vue";
 export default {
   name: "CreatePost",
   components: {
     SelectTag,
+    CloudinaryUpload,
     // ACounTer,
   },
   mixins: [validationMixin],
@@ -370,6 +363,7 @@ export default {
   },
   data() {
     return {
+      imageUrls: null,
       isBuy: true,
       isRent: false,
       // SelectedDangThongTin: null,
@@ -484,6 +478,9 @@ export default {
     },
   },
   methods: {
+    handleImageUploaded(imageUrls) {
+      this.imageUrls = imageUrls;
+    },
     ChangeType() {
       this.isBuy = !this.isBuy;
       this.isRent = !this.isRent;
@@ -495,6 +492,7 @@ export default {
         ...this.newEstatePost,
         LoaiBDS: this.convertTypeOfRealEstateToID,
         IDNguoiDung: this.CurrentUserInfo.ID,
+        HinhAnh: JSON.stringify(this.imageUrls),
       };
       const res = await axios.post(API, newPost);
       if (res.status === 200) {
