@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     async getPosts() {
-      const API = "http://localhost:8000/post/getAllPost";
+      const API = `${process.env.VUE_APP_API}/post/getAllPost`;
       await axios.get(API).then((res) => {
         this.posts = res.data;
         console.log(this.posts);

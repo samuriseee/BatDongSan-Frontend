@@ -14,7 +14,7 @@ export default {
   methods: {
     SendToken() {
       let token = localStorage.getItem("token");
-      let API = `${process.env.API}/auth/currentUser`;
+      let API = `${process.env.VUE_APP_API}/auth/currentUser`;
       axios
         .get(API, {
           headers: {

@@ -33,59 +33,7 @@
           </select>
         </div>
 
-        <div class="Address">
-          <div class="form-group">
-            <label for="title">Tỉnh/Thành phố</label>
-            <select class="form-control" id="title">
-              <option>Chọn tỉnh/thành phố</option>
-              <option>Hà Nội</option>
-              <option>Hồ Chí Minh</option>
-              <option>Đà Nẵng</option>
-              <option>Hải Phòng</option>
-              <option>Quảng Ninh</option>
-              <option>...</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="title">Quận/Huyện</label>
-            <select class="form-control" id="title">
-              <option>Chọn quận/huyện</option>
-              <option>Quận 1</option>
-              <option>Quận 2</option>
-              <option>Quận 3</option>
-              <option>Quận 4</option>
-              <option>Quận 5</option>
-              <option>...</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="title">Phường/Xã</label>
-            <select class="form-control" id="title">
-              <option>Chọn phường/xã</option>
-              <option>Phường 1</option>
-              <option>Phường 2</option>
-              <option>Phường 3</option>
-              <option>Phường 4</option>
-              <option>Phường 5</option>
-              <option>...</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="title">Đường/Phố</label>
-            <select class="form-control" id="title">
-              <option>Chọn đường/phố</option>
-              <option>Đường 1</option>
-              <option>Đường 2</option>
-              <option>Đường 3</option>
-              <option>Đường 4</option>
-              <option>Đường 5</option>
-              <option>...</option>
-            </select>
-          </div>
-        </div>
+        <location-select @locationUpdate="locationUpdate" />
         <div class="form-group">
           <label for="title">Địa chỉ hiện thị trên tin đăng</label>
           <input
@@ -334,11 +282,13 @@ import axios from "axios";
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
 import CloudinaryUpload from "@/components/CreatePost/CloudinaryUpload.vue";
+import LocationSelect from "@/components/CreatePost/LocationSelect.vue";
 export default {
   name: "CreatePost",
   components: {
     SelectTag,
     CloudinaryUpload,
+    LocationSelect,
     // ACounTer,
   },
   mixins: [validationMixin],
@@ -440,6 +390,7 @@ export default {
         HinhAnh: null,
       },
       CurrentUserInfo: this.$store.state.currentUser,
+      location: null,
     };
   },
   computed: {
@@ -478,6 +429,9 @@ export default {
     },
   },
   methods: {
+    locationUpdate(locationData) {
+      this.location = locationData;
+    },
     handleImageUploaded(imageUrls) {
       this.imageUrls = imageUrls;
     },
@@ -487,7 +441,7 @@ export default {
       this.newEstatePost.LoaiBDS = null;
     },
     async CreatePost() {
-      const API = "http://localhost:8000/real_estate/CreateNewRealEstate";
+      const API = `${process.env.VUE_APP_API}/real_estate/CreateNewRealEstate`;
       const newPost = {
         ...this.newEstatePost,
         LoaiBDS: this.convertTypeOfRealEstateToID,
