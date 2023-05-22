@@ -49,12 +49,6 @@ const routes = [
     component: () => import("../views/AuthenView/ResetPasswordView.vue"),
   },
   {
-    path: "/createPost",
-    name: "creatPost",
-    component: () => import("../views/CreatePost.vue"),
-    beforeEnter: requireAuth,
-  },
-  {
     path: "/estate-for-sale",
     name: "estate-for-sale",
     component: () => import("../views/EstateList/EstateForSale.vue"),
@@ -64,13 +58,29 @@ const routes = [
     name: "estate-for-rent",
     component: () => import("../views/EstateList/EstateForRent.vue"),
   },
-
   {
     path: "/estate/:id",
     name: "estate",
     component: () => import("../views/EstateDetails.vue"),
   },
-  
+  {
+    path: "/user-post-management",
+    name: "user-post-management",
+    component: () => import("../views/UserPostManagement/PostManagement.vue"),
+    beforeEnter: requireAuth,
+    children: [
+      {
+        path: "/user-post-management/create-post",
+        name: "create-post",
+        component: () => import("../views/UserPostManagement/CreatePost.vue"),
+      },
+      {
+        path: "/user-post-management/post-list",
+        name: "post-list",
+        component: () => import("../views/UserPostManagement/PostList.vue"),
+      },
+    ],
+  },
   {
     path: "/admin-page",
     name: "admin",
@@ -95,7 +105,7 @@ const routes = [
       },
       {
         path: "/post-management/:id",
-        name: "post-management",
+        name: "post-management-details",
         component: () => import("../views/AdminDashboard/PostDetails.vue"),
       },
     ],

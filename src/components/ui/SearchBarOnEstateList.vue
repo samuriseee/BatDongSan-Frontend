@@ -261,6 +261,7 @@ export default {
 <style lang="scss" scoped>
 .wrapper {
   width: 100%;
+  height: fit-content;
   display: flex;
   justify-content: space-between;
   align-items: center;

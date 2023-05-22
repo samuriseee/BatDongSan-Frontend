@@ -16,11 +16,11 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    signout(state) {
+      state.currentUser = null;
+    },
     setCurrentUser(state, user) {
       state.currentUser = user;
-    },
-    signOut(state) {
-      state.currentUser = null;
     },
     setAllRentTypes(state, allRentTypes) {
       state.allRentTypes = allRentTypes;
@@ -30,6 +30,11 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    logout({ commit }) {
+      localStorage.removeItem("token");
+
+      commit("signout");
+    },
     async getCurrentUserInfo({ commit }, token) {
       const API = `${process.env.VUE_APP_API}/auth/currentUser`;
       if (!token) return;

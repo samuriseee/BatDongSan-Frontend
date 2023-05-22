@@ -447,6 +447,9 @@ export default {
         LoaiBDS: this.convertTypeOfRealEstateToID,
         IDNguoiDung: this.CurrentUserInfo.ID,
         HinhAnh: JSON.stringify(this.imageUrls),
+        ThanhPho: this.location.city,
+        QuanHuyen: this.location.district,
+        PhuongXa: this.location.ward,
       };
       const res = await axios.post(API, newPost);
       if (res.status === 200) {
@@ -462,14 +465,8 @@ export default {
 
 <style scoped>
 .wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  background-color: #f9f9f9;
-  box-sizing: border-box;
+  overflow: auto;
 }
-
 .basic {
   margin-top: 30px;
 }

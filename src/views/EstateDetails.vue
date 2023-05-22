@@ -6,20 +6,22 @@
       <div class="page_detail">
         <div class="page_detail--left">
           <div class="page_detail--img">
-            <EstateInfoSessionVue :images="estateDetail.anh" />
+            <EstateInfoSessionVue :images="estateDetail.HinhAnh" />
           </div>
 
           <div class="detail__left--content">
             <div class="detail__left--title">
-              <p>
-                Bán/Hồ Chí Minh/Bình Thạnh/
+              <p class="breadcrumb">
+                {{ (estateDetail.BanHayChoThue.data = 1 ? "Bán" : "Thuê") }}/{{
+                  estateDetail.ThanhPho
+                }}/{{ estateDetail.QuanHuyen }}/
                 <span>{{ estateDetail.dia_chi_cu_the }}</span>
               </p>
               <h3>
-                {{ estateDetail.tieu_de }}
+                {{ estateDetail.TieuDe }}
               </h3>
               <p>
-                {{ estateDetail.dia_chi_cu_the }}
+                {{ estateDetail.DiaChiCuThe }}
               </p>
             </div>
 
@@ -27,18 +29,17 @@
               <div style="display: flex">
                 <div class="left__specifications--item">
                   <p>Mức giá</p>
-                  <h4>{{ estateDetail.gia }}</h4>
-                  <span>~54.07 triệu/m²</span>
+                  <h4>{{ estateDetail.MucGia }} {{ estateDetail.DonVi }}</h4>
                 </div>
 
                 <div class="left__specifications--item">
                   <p>Diện tích</p>
-                  <h4>{{ estateDetail.dien_tich }} m²</h4>
+                  <h4>{{ estateDetail.DienTich }} m²</h4>
                 </div>
 
                 <div class="left__specifications--item">
                   <p>Phòng ngủ</p>
-                  <h4>{{ estateDetail.so_phong_ngu }} PN</h4>
+                  <h4>{{ estateDetail.SoPhongNgu }} PN</h4>
                 </div>
               </div>
 
@@ -59,7 +60,65 @@
               <h4>Thông tin mô tả</h4>
 
               <div class="description__content">
-                {{ estateDetail.mo_ta }}
+                <p v-html="modifiedDescription"></p>
+              </div>
+            </div>
+            <div class="detail__left--functional">
+              <h4>Đặc điểm bất động sản</h4>
+              <div class="functional_flex">
+                <div class="functional-item">
+                  <b>Diện tích</b>
+                  <p>{{ estateDetail.DienTich }} m²</p>
+                </div>
+                <div class="functional-item">
+                  <b>Mức giá</b>
+                  <p>{{ estateDetail.MucGia }} {{ estateDetail.DonVi }}</p>
+                </div>
+                <div class="functional-item">
+                  <b>Giấy tờ pháp lý</b>
+                  <p>{{ estateDetail.GiayToPhapLy }}</p>
+                </div>
+                <div
+                  class="functional-item"
+                  v-if="estateDetail.SoPhongNgu != 0"
+                >
+                  <b>Số phòng ngủ</b>
+                  <p>{{ estateDetail.SoPhongNgu }}</p>
+                </div>
+                <div
+                  class="functional-item"
+                  v-if="estateDetail.SoPhongTam != 0"
+                >
+                  <b>Số phòng tắm</b>
+                  <p>{{ estateDetail.SoPhongTam }}</p>
+                </div>
+                <div class="functional-item" v-if="estateDetail.SoTang != 0">
+                  <b>Số tầng</b>
+                  <p>{{ estateDetail.SoTang }}</p>
+                </div>
+                <div class="functional-item" v-if="estateDetail.NoiThat != ''">
+                  <b>Nội Thất</b>
+                  <p>{{ estateDetail.NoiThat }}</p>
+                </div>
+                <div
+                  class="functional-item"
+                  v-if="estateDetail.HuongBanCong != ''"
+                >
+                  <b>Hướng ban công</b>
+                  <p>{{ estateDetail.HuongBanCong }}</p>
+                </div>
+                <div class="functional-item" v-if="estateDetail.HuongNha != ''">
+                  <b>Hướng Nhà</b>
+                  <p>{{ estateDetail.HuongNha }}</p>
+                </div>
+                <div class="functional-item" v-if="estateDetail.DuongVao != ''">
+                  <b>Đường vào</b>
+                  <p>{{ estateDetail.DuongVao }} m²</p>
+                </div>
+                <div class="functional-item" v-if="estateDetail.MatTien != ''">
+                  <b>Mặt tiền</b>
+                  <p>{{ estateDetail.MatTien }} m²</p>
+                </div>
               </div>
             </div>
           </div>
@@ -68,12 +127,14 @@
         <div class="page_detail--right">
           <div class="detail__right--contact">
             <div class="detail__right--acc">
+              <div class="avatar">{{ estateDetail.HoTen.slice(0, 1) }}</div>
               <span>Được đăng bởi</span>
-              <h5>{{ estateDetail.nguoi_dang }}</h5>
+              <h5>{{ estateDetail.HoTen }}</h5>
+
               <a href="#">Xem thêm 20 tin khác</a>
             </div>
 
-            <input class="active" type="button" :value="estateDetail.sdt" />
+            <input class="active" type="button" :value="estateDetail.SDT" />
             <input type="button" value="Gửi mail" />
             <input type="button" value="Yêu cầu liên hệ lại" />
           </div>
@@ -124,23 +185,40 @@ export default {
       id: this.$route.params.id,
     };
   },
-  methods: {
-    async getEstateDetail(id) {
-      const { data } = await axios.get(
-        `http://127.0.0.1:8000/bat_dong_san/${id}`
-      );
-      data.anh = data.anh.replace(/[[\]""]/g, "");
-      data.anh = data.anh.split(",");
-      this.estateDetail = data;
+  computed: {
+    modifiedDescription() {
+      return this.estateDetail.MoTa.replace(/\.\s/g, "<br>");
     },
   },
   created() {
     this.getEstateDetail(this.id);
   },
+  methods: {
+    async getEstateDetail(id) {
+      // const API = `${process.env.VUE_APP_API}/real_estate/getRealEstateByID/${id}`;
+      const API = `http://localhost:8000/real_estate/getRealEstateByID/${id}`;
+      const res = await axios.get(API);
+      res.data[0].HinhAnh = JSON.parse(res.data[0].HinhAnh);
+      this.estateDetail = res.data[0];
+    },
+  },
 };
 </script>
 
 <style>
+.avatar {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  text-transform: uppercase;
+  background-color: rgb(255, 236, 235);
+  color: rgb(116, 21, 15);
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  margin: 0 auto;
+}
 .wrapper__detail {
   display: flex;
   justify-content: center;
@@ -178,17 +256,22 @@ export default {
 }
 
 .detail__left--title h3 {
-  font-size: 19px;
-  font-weight: 700;
-  color: #000000;
+  font-family: "Lexend Medium", Roboto, Arial !important;
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: normal !important;
+  letter-spacing: -0.2px;
+  color: #2c2c2c;
+  display: block;
 }
 
 .detail__left--specifications {
   display: flex;
   margin: 20px 0;
-  padding: 10px 0;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #f2f2f2;
+  border-bottom: 1px solid #f2f2f2;
+  padding: 15px 0px;
+  box-sizing: border-box;
   justify-content: space-between;
   align-items: center;
 }
@@ -203,7 +286,7 @@ export default {
   color: #b3b3b3;
 }
 
-.left__specifications--item h4 {
+h4 {
   font-size: 16px;
   font-weight: 700;
 }
@@ -219,15 +302,22 @@ export default {
 .left__specifications--icon p {
   margin: 0 7px;
 }
-.detail__left--description h4 {
-  font-size: 20px;
-  font-weight: 700;
-  padding-bottom: 7px;
+.detail__left--description h4, .detail__left--functional h4 {
+  font-family: "Lexend Medium", Roboto, Arial !important;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: bold;
+  letter-spacing: -0.2px;
+  color: #2c2c2c;
+  display: block;
+  margin-bottom: 10px;
 }
 
 .description__content {
-  font-size: 14px;
-  line-height: 24px;
+  font-family: "Roboto Regular", Roboto, Arial !important;
+  font-size: 16px;
+  line-height: 30px;
+  font-weight: normal !important;
 }
 
 .description__content span {
@@ -324,5 +414,35 @@ export default {
 .detail__right--description li {
   color: #2c2c2c;
   margin-bottom: 12px;
+}
+.breadcrumb {
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+.detail__left--functional {
+  margin-top: 20px;
+}
+.functional_flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+.functional-item {
+  box-sizing: border-box;
+  width: 49%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+  border-top: 1px solid #f2f2f2;
+}
+.functional-item b {
+  font-size: 14px;
+  color: #999;
+}
+.functional-item p {
+  font-size: 14px;
+  color: #2c2c2c;
 }
 </style>
