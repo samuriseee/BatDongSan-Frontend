@@ -1,25 +1,25 @@
 <template>
-  <div class="re_card-full" @click="$router.push('/estate/' + estate.id)">
+  <div class="re_card-full" @click="$router.push('/estate/' + estate.ID)">
     <div class="re_card-image">
-      <div v-for="(anh, index) in getFirst4Images" :key="index">
-        <img :src="anh" alt="" />
+      <div v-for="(HinhAnh, index) in getFirst4Images" :key="index">
+        <img :src="HinhAnh" alt="" />
       </div>
     </div>
     <div class="re_card-info">
-      <h3>{{ estate.tieu_de }}</h3>
+      <h3>{{ estate.TieuDe }}</h3>
       <div class="re_card-physicalInfo">
-        <p style="color: red; font-weight: 500" v-if="estate.gia > 0">
-          {{ estate.gia }}
+        <p style="color: red; font-weight: 500" v-if="estate.MucGia > 0">
+          {{ estate.MucGia }}
         </p>
-        <p style="color: red; font-weight: 500">{{ estate.dien_tich }} m²</p>
-        <p>{{ estate.dia_chi_cu_the }}</p>
+        <p style="color: red; font-weight: 500">{{ estate.DienTich }} m²</p>
+        <p>{{ estate.DiaChi }}</p>
       </div>
       <div class="re_card-descript">{{ spliceDescription }}</div>
       <div class="re_card-contact">
         <div class="re_card-author">
-          {{ estate.nguoi_dang }}
+          {{ estate.HoTen }}
         </div>
-        <div class="re_card-number">{{ estate.sdt }}</div>
+        <div class="re_card-number">{{ estate.SDT }}</div>
       </div>
     </div>
   </div>
@@ -39,11 +39,11 @@ export default {
   },
   computed: {
     getFirst4Images() {
-      return this.estate.anh.slice(0, 4);
+      return this.estate.HinhAnh.slice(0, 4);
     },
     spliceDescription() {
-      if (!this.estate.mo_ta) return this.estate.mo_ta;
-      else return this.estate.mo_ta.slice(0, 300) + "...";
+      if (!this.estate.MoTa) return this.estate.MoTa;
+      else return this.estate.MoTa.slice(0, 300) + "...";
     },
   },
   methods: {},

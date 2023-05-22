@@ -31,7 +31,7 @@ export default new Vuex.Store({
   },
   actions: {
     async getCurrentUserInfo({ commit }, token) {
-      const API = `http://localhost:8000/auth/currentUser`;
+      const API = `${process.env.VUE_APP_API}/auth/currentUser`;
       if (!token) return;
       try {
         const response = await axios.get(API, {
@@ -43,7 +43,7 @@ export default new Vuex.Store({
       }
     },
     async getAllRentTypes({ commit }) {
-      const API = `http://localhost:8000/real_estate/getAllRentTypes`;
+      const API = `${process.env.VUE_APP_API}/real_estate/getAllRentTypes`;
       try {
         const response = await axios.get(API);
         commit("setAllRentTypes", response.data);
@@ -52,7 +52,7 @@ export default new Vuex.Store({
       }
     },
     async getAllBuyTypes({ commit }) {
-      const API = `http://localhost:8000/real_estate/getAllBuyTypes`;
+      const API = `${process.env.VUE_APP_API}/real_estate/getAllBuyTypes`;
       try {
         const response = await axios.get(API);
         commit("setAllBuyTypes", response.data);

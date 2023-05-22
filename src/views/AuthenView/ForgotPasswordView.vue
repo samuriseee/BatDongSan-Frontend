@@ -65,7 +65,7 @@ export default {
       }
     },
     async forgotPassword() {
-      const API = "http://localhost:8000/auth/forgot-password";
+      const API = `${process.env.VUE_APP_API}/auth/forgot-password`;
       alert(this.forgotPasswordUser.email);
       try {
         const response = await axios.post(API, this.forgotPasswordUser);

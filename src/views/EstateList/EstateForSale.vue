@@ -89,11 +89,10 @@ export default {
   watch: {},
   created() {
     axios
-      .get("http://127.0.0.1:8000/bat_dong_san/loai_nha_dat_ban")
+      .get(`${process.env.VUE_APP_API}/real_estate/getBuyRealEstate`)
       .then((response) => {
         response.data = response.data.map((res) => {
-          res.anh = res.anh.replace(/[[\]""]/g, "");
-          res.anh = res.anh.split(",");
+          res.HinhAnh = JSON.parse(res.HinhAnh);
           return res;
         });
         this.EstateForSale = response.data;
