@@ -1,5 +1,5 @@
 <template>
-  <div class="navigation re__full-menu">
+  <div class="fixed navigation re__full-menu">
     <div class="rightSide">
       <div class="logo">
         <img src="@/assets/image/logo.png" alt="" @click="ToHome()" />
@@ -35,7 +35,7 @@
         </div>
 
         <div v-if="isLoggedIn && isAdmin">
-          <router-link to="/admin-page">Admin</router-link>
+          <router-link to="/employee-management">Quản trị website</router-link>
         </div>
       </nav>
     </div>
@@ -48,14 +48,16 @@
           </p>
         </router-link>
         |
-        <router-link to="/login" @click="logout">Đăng xuất</router-link>
+        <div @click="logout">Đăng xuất</div>
       </div>
       <div id="divUserStt" v-else>
         <router-link to="/login">Đăng nhập</router-link> |
         <router-link to="/register">Đăng ký</router-link>
       </div>
       <div class="CreatePost">
-        <router-link to="/createpost">Đăng tin</router-link>
+        <router-link to="/user-post-management/create-post"
+          >Đăng tin</router-link
+        >
       </div>
     </div>
   </div>
@@ -86,7 +88,6 @@ export default {
       return this.$store.state.allRentTypes;
     },
     allBuyTypes() {
-      console.log("Buy type", this.$store.state.allBuyTypes);
       return this.$store.state.allBuyTypes;
     },
   },
@@ -96,6 +97,10 @@ export default {
   methods: {
     ToHome() {
       this.$router.push("/");
+    },
+    logout() {
+      this.$store.dispatch("logout");
+      this.$router.push("/login");
     },
   },
 };

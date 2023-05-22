@@ -8,9 +8,9 @@
       <div class="estate-list">
         <EstateCardOnListPage
           v-for="estate in filteredRealEstate"
-          :key="estate.id"
+          :key="estate.ID"
           :estate="estate"
-          @click="$router.go('/estate/' + estate.id)"
+          @click="$router.go('/estate/' + estate.ID)"
         />
       </div>
       <div style="margin-top: 22px">
