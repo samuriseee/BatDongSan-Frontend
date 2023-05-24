@@ -1,5 +1,37 @@
 <template>
   <div class="wrapper">
+    <ModalComponent :isOpen.sync="showModal" variant="small">
+      <template v-slot:header> Yêu cầu xác thực tin đăng </template>
+      <template v-slot:content>
+        <form>
+          <div class="mb-5 mt-5">
+            <h4>Vui lòng tải lên</h4>
+            <p>
+              1. Video mới nhất của bất động sản đăng bán, quay từ mặt tiền căn
+              nhà vào trong nhà, lên các tầng nếu có. <br />
+              2. Ảnh chụp sổ đỏ/sổ hồng mới nhất và còn hiệu lực, chụp đủ 4 mặt
+              sổ và tất cả các trang bổ sung đi kèm, được phép che tên chủ sở
+              hữu. <br />
+              3. Ảnh chụp mặt trước, mặt sau của CCCD/CMND (nếu bạn là chính chủ
+              của bất động sản) <br />
+            </p>
+          </div>
+          <div class="mb-6 uploads">
+            <CloudinaryUpload @image-uploaded="handleImageUploaded" />
+          </div>
+          <button
+            type="submit"
+            style="margin: 0 auto"
+            :disabled="imageUrls.length < 3"
+            @click="requestAuthorizePost"
+            class="flex justify-end p-2 rounded-lg cursor-pointer submit_btn"
+          >
+            Gửi yêu cầu
+          </button>
+        </form>
+      </template>
+      <button @click="showModal = false">Close</button>
+    </ModalComponent>
     <div class="post_list_header">
       <div class="header_wrapper">
         <h3>Danh sách tin</h3>
@@ -40,22 +72,34 @@
       </div>
     </div>
     <div class="post_list_content">
-      <PostCard v-for="post in postList" :key="post.ID" :post="post" />
+      <PostCard
+        v-for="post in postList"
+        :key="post.ID"
+        :post="post"
+        @authorize-post="authorizePost"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import CloudinaryUpload from "@/components/CreatePost/CloudinaryUpload.vue";
+import ModalComponent from "@/components/ui/ModalComponent.vue";
 import axios from "axios";
 import PostCard from "@/components/UserPostManagement/PostCard.vue";
 export default {
   name: "PostList",
   components: {
     PostCard,
+    ModalComponent,
+    CloudinaryUpload,
   },
   data() {
     return {
       postList: [],
+      showModal: false,
+      imageUrls: [],
+      AuthorizePostID: null,
     };
   },
   computed: {
@@ -67,9 +111,38 @@ export default {
     this.getUserPostList();
   },
   methods: {
-    getUserPostList() {
-      const API = `${process.env.VUE_APP_API}/user_post/getRealEstatePostByUser/${this.currentUser.ID}`;
+    requestAuthorizePost() {
+      const API = `${process.env.VUE_APP_API}/authorize_real_estate/requestAuthorize`;
       axios
+        .post(API, {
+          IDTinDang: this.AuthorizePostID.toString(),
+          TrangThai: 0,
+          NgayGuiYeuCau: new Date()
+            .toISOString()
+            .slice(0, 10)
+            .replace(/-/g, ""),
+          NgayTraKetQua: null,
+          HinhAnh: JSON.stringify(this.imageUrls),
+        })
+        .then((res) => {
+          console.log(res);
+          this.showModal = false;
+          alert(res.data.msg);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    authorizePost(postId) {
+      this.AuthorizePostID = postId;
+      this.showModal = true;
+    },
+    handleImageUploaded(imageUrls) {
+      this.imageUrls = imageUrls;
+    },
+    async getUserPostList() {
+      const API = `${process.env.VUE_APP_API}/user_post/getRealEstatePostByUser/${this.currentUser.ID}`;
+      await axios
         .get(API)
         .then((res) => {
           res.data = res.data.map((post) => {
@@ -89,6 +162,10 @@ export default {
 </script>
 
 <style scoped>
+form {
+  width: 100%;
+  padding: 0;
+}
 .wrapper {
   width: 100%;
   display: flex;
@@ -158,5 +235,41 @@ export default {
   background-color: transparent;
   padding: 20px 20px;
   text-align: left;
+}
+.uploads {
+  width: 100%;
+  background: rgb(255, 255, 255);
+  border: 1px dashed rgb(204, 204, 204);
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+.submit_btn {
+  position: relative;
+  height: 32px;
+  display: inline-block;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  width: fit-content;
+  background-color: rgb(224, 60, 49);
+  padding: 6px 12px;
+  color: rgb(255, 255, 255);
+  border: none;
+}
+.submit_btn[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.submit_btn:hover {
+  background-color: rgb(204, 51, 34);
 }
 </style>

@@ -2,6 +2,11 @@
   <div class="wrapper">
     <div class="left_side">
       <div>
+        <button class="confirm_button" @click="authorizePost(post.ID)">
+          Xác thực tin
+        </button>
+      </div>
+      <div>
         <img :src="post.HinhAnh[0]" alt="" />
         <div class="post_text">
           <h5>
@@ -48,6 +53,14 @@ export default {
     },
   },
   components: {},
+  data() {
+    return {};
+  },
+  methods: {
+    authorizePost(postID) {
+      this.$emit("authorize-post", postID);
+    },
+  },
 };
 </script>
 
@@ -66,6 +79,7 @@ export default {
   box-shadow: 0px 4px 10px rgba(182, 182, 182, 0.18);
 }
 .wrapper .left_side {
+  position: relative;
   width: 70%;
   display: flex;
   align-items: flex-start;
@@ -104,6 +118,27 @@ export default {
   font-weight: 400;
   color: #000;
 }
+.confirm_button {
+  position: absolute;
+  right: 10px;
+  bottom: -22px;
+  display: inline-block;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  width: fit-content;
+  background-color: rgb(255, 255, 255);
+  padding: 6px 10px;
+  color: rgb(0, 155, 161);
+  opacity: 1;
+  border: 1px solid rgb(0, 155, 161);
+  transition: all 0.2s ease 0s;
+}
+.confirm_button:hover {
+  background-color: rgb(0, 155, 161);
+  color: rgb(255, 255, 255);
+}
+
 .wrapper .right_side {
   width: 30%;
   display: flex;
@@ -148,6 +183,11 @@ export default {
   opacity: 1;
   border: 1px solid rgb(0, 155, 161);
   font-family: Roboto;
+  transition: all 0.2s ease 0s;
+}
+.right_side .edit_btn:hover {
+  background-color: rgb(0, 155, 161);
+  color: rgb(255, 255, 255);
 }
 .status {
   padding: 4px;
