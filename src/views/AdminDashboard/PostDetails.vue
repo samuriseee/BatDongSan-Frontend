@@ -67,19 +67,19 @@
                             <span>Được đăng bởi
                             </span>
                             <h5>{{ post.HoTen }}</h5>
-                            <a href="#">Xem thêm 20 tin khác</a>
+                            <!-- <a href="#">Xem thêm 20 tin khác</a> -->
                         </div>
-                        <input class="active" type="button" :value="post.sdt" />
+                        <!-- <input class="active" type="button" :value=post.SDT />
                         <input type="button" value="Gửi mail" />
-                        <input type="button" value="Yêu cầu liên hệ lại" />
+                        <input type="button" value="Yêu cầu liên hệ lại" /> -->
 
                         <div class="Duyet_trangThai">
                             <div v-if="post.TrangThai == 'vi phạm'">
                                 <button class="btnDuyet" @click="updatePost_TrangThaiThanhDaDuyet()">Hiển thị lại tin</button>
                             </div>
-                            <div v-else-if="post.TrangThai == 'chưa duyệt'">
+                            <div v-else-if="post.TrangThai == 'chờ duyệt'">
                                 <button class="btnDuyet" @click="updatePost_TrangThaiThanhDaDuyet()">Duyệt</button>
-                                <button class="btnKhongDuyet" @click="updatePost_TrangThaiThanhKhongDuocDuyet()">Không duyệt</button>
+                                <button class="btnKhongDuyet" @click="updatePost_TrangThaiThanhViPham()">Không duyệt</button>
                             </div>
                             <div v-else-if="post.TrangThai == 'đã duyệt'">
                                 <button class="btnDuyet" @click="updatePost_TrangThaiThanhViPham()">Đánh dấu vi phạm</button>
@@ -147,22 +147,22 @@ export default {
 
         },
 
-        updatePost_TrangThaiThanhKhongDuocDuyet() {
-            const data = {
-                idU: this.$route.params.id,
-            };
+        // updatePost_TrangThaiThanhKhongDuocDuyet() {
+        //     const data = {
+        //         idU: this.$route.params.id,
+        //     };
 
-            axios.post('http://localhost:8000/post/updatePost_TrangThaiThanhKhongDuocDuyet', data)
-                .then(response => {
-                    console.log(response.data);
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-                alert("Bạn đã không phê duyệt bài đăng này");
-                this.BackPostS_management()
+        //     axios.post('http://localhost:8000/post/updatePost_TrangThaiThanhKhongDuocDuyet', data)
+        //         .then(response => {
+        //             console.log(response.data);
+        //         })
+        //         .catch(error => {
+        //             console.error(error);
+        //         });
+        //         alert("Bạn đã không phê duyệt bài đăng này");
+        //         this.BackPostS_management()
 
-        },
+        // },
 
         updatePost_TrangThaiThanhViPham() {
             const data = {
@@ -176,7 +176,7 @@ export default {
                 .catch(error => {
                     console.error(error);
                 });
-                alert("Đã đánh dấu bài đăng vi phạm");
+                alert("Bài đăng sẽ không được hiển thị trên bảng");
                 this.BackPostS_management()
                 
         }
@@ -188,6 +188,7 @@ export default {
 </script>
 <style scoped >
 .wrapper__detail {
+    padding: 200px;
     display: flex;
     justify-content: center;
     margin-top: 25px;
@@ -201,12 +202,12 @@ export default {
     display: flex;
     justify-content: center;
     width: 65%;
-    margin-top: 50px;
+    margin-top: 200px;
     background: #fff;
     margin-left: 180px;
     border-radius: 10px;
     box-shadow: 4px 4px 4px #c4bcbc;
-    height: 800px;
+    height: 100%;
 }
 
 .TrangThaiTin {
@@ -348,6 +349,7 @@ export default {
     border: 1px solid #cccccc99;
     border-radius: 5px;
     padding: 15px 10px;
+    width: 200px;
 }
 
 .detail__right--acc img {
@@ -414,7 +416,6 @@ export default {
 
 .page_detail--right .active {
     margin-top: 20px;
-    background: #2c2c2c;
     color: #fff;
 }
 

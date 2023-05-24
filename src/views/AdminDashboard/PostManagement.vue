@@ -2,14 +2,13 @@
   <div>
     <div class="Danh_Sach_BaiDang">
       <div class="Tieu_de">
-        <button class="DS_TinDang" @click="getPosts()">Danh sách tất cả tin đăng</button>
         <span>
+          <button :class="{ active: activeButton === 'DS_TinDang' }"
+            @click="getPosts(), changeActiveButton('DS_TinDang')">Danh sách tất cả tin đăng</button>
           <button :class="{ active: activeButton === 'DS_BDS_chua_duyet' }"
-            @click="getPosts_notApprovedYet(), changeActiveButton('DS_BDS_chua_duyet')">Chưa duyệt </button>
+            @click="getPosts_notApprovedYet(), changeActiveButton('DS_BDS_chua_duyet')">Chờ duyệt </button>
           <button :class="{ active: activeButton === 'DS_BDS_da_duyet' }"
             @click="getPosts_Approved(), changeActiveButton('DS_BDS_da_duyet')">Đã duyệt </button>
-          <button :class="{ active: activeButton === 'DS_BDS_khong_duyet' }"
-            @click="getPosts_not_approved(), changeActiveButton('DS_BDS_khong_duyet')">Không duyệt </button>
           <button :class="{ active: activeButton === 'DS_BDS_vi_Pham' }"
             @click="getPosts_violate(), changeActiveButton('DS_BDS_vi_Pham')">Vi phạm </button>
         </span>
@@ -28,7 +27,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="post in posts" :key="post.id" @click="goToPostDetail(post.ID)">
+            <tr class="Dong" v-for="post in posts" :key="post.id" @click="goToPostDetail(post.ID)">
               <td>
                 {{ post.TieuDe }}
               </td>
@@ -36,7 +35,7 @@
                 {{ post.HoTen }}
               </td>
               <td>
-                {{ post.DiaChi }}
+                {{ post.ThanhPho }}
               </td>
               <td>
                 {{ post.MucGia }} VNĐ
@@ -73,7 +72,7 @@ export default {
   name: "APage",
   created() {
     this.getPosts();
-    this.Dem()
+    this.activeButton = 'DS_TinDang';
   },
   data() {
     return {
@@ -83,12 +82,12 @@ export default {
     };
   },
   methods: {
-// 4 trang thái 
-// 0: vi phạm
-// 1: tin chưa duyệt
-// 2: tin đã duyệt
-// 3: tin không được duyệt
-// tin không được duyệt
+    // 4 trang thái 
+    // 0: vi phạm
+    // 1: tin chưa duyệt
+    // 2: tin đã duyệt
+    // 3: tin không được duyệt
+    // tin không được duyệt
 
     // tất cả tin đăng
     async getPosts() {
@@ -137,13 +136,13 @@ export default {
       });
     },
 
-    // tin đăng không duyệt
-    getPosts_not_approved() {
-      const API = "http://localhost:8000/post/getPosts_not_approved";
-      axios.get(API).then((res) => {
-        this.posts = res.data;
-      });
-    },
+    // // tin đăng không duyệt
+    // getPosts_not_approved() {
+    //   const API = "http://localhost:8000/post/getPosts_not_approved";
+    //   axios.get(API).then((res) => {
+    //     this.posts = res.data;
+    //   });
+    // },
   },
 };
 
@@ -169,6 +168,7 @@ export default {
   display: flex;
   padding: 10px;
   font-size: 12px;
+  margin-left: 150px;
 }
 
 .DS_TinDang {
@@ -203,15 +203,15 @@ export default {
   display: flex;
   justify-content: center;
 }
-.TrangThai{
+
+.TrangThai {
   display: flex;
   justify-content: center;
 }
-
-
-
-
-
+.Dong:hover{
+  background-color:rgb(103, 97, 97) ;
+  color: rgb(255, 255, 255);
+}
 /* .w3-table-all{
     font-size: 12px;
     width: 1150px;
