@@ -112,6 +112,16 @@ const routes = [
         component: () => import("../views/AdminDashboard/UserManagement.vue"),
       },
       {
+        path: "/employee-management/:id",
+        name: "employee-management-details",
+        component: () => import("../views/AdminDashboard/EmployeeDetails.vue"),
+      },
+      {
+        path: "/user-management/:id",
+        name: "user-details",
+        component: () => import("../views/AdminDashboard/UserManagementDetail.vue"),
+      },
+      {
         path: "/employee-management",
         name: "employee-management",
         component: () =>
