@@ -64,6 +64,25 @@ const routes = [
     component: () => import("../views/EstateDetails.vue"),
   },
   {
+    path: "/employee-page",
+    name: "employee-page",
+    component: () => import("../views/EmployeeDashboard/EmployeePage.vue"),
+    beforeEnter: requireAuth,
+    children: [
+      {
+        path: "/employee-page/employee-task",
+        name: "employee-task",
+        component: () => import("../views/EmployeeDashboard/EmployeeTask.vue"),
+      },
+      {
+        path: "/employee-page/authen-post/:id",
+        name: "authen-post",
+        component: () =>
+          import("../views/EmployeeDashboard/AuthenPostDetails.vue"),
+      },
+    ],
+  },
+  {
     path: "/user-post-management",
     name: "user-post-management",
     component: () => import("../views/UserPostManagement/PostManagement.vue"),

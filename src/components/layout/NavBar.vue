@@ -37,6 +37,11 @@
         <div v-if="isLoggedIn && isAdmin">
           <router-link to="/employee-management">Quản trị website</router-link>
         </div>
+        <div v-if="isLoggedIn && isEmployee">
+          <router-link to="/employee-page/employee-task"
+            >Quản lý công việc</router-link
+          >
+        </div>
       </nav>
     </div>
     <div class="leftSide">
@@ -83,6 +88,9 @@ export default {
     },
     isAdmin() {
       return this.$store.state.currentUser.role === "admin";
+    },
+    isEmployee() {
+      return this.$store.state.currentUser.role === "employee";
     },
     allRentTypes() {
       return this.$store.state.allRentTypes;
@@ -146,6 +154,7 @@ p {
   height: 48px;
   width: 160px;
   object-fit: cover;
+  cursor: pointer;
 }
 
 .navigation nav {
